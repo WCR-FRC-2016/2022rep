@@ -8,8 +8,8 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-//#include "networktables/NetworkTable.h"
-//#include "networktables/NetworkTableInstance.h"
+#include "networktables/NetworkTable.h"
+#include "networktables/NetworkTableInstance.h"
 
 class Shooter : public frc2::SubsystemBase {
  private:
@@ -21,11 +21,13 @@ class Shooter : public frc2::SubsystemBase {
 
   bool initialized = false;
 
-  //std::shared_ptr<nt::NetworkTable> table;
+  std::shared_ptr<nt::NetworkTable> table;
 
  public:
   Shooter();
   void ShooterInit();
   void Periodic();
   void SetMotorsPO(double left, double right);
+  void ChoosePipeline(int pipeline);
+  double GetLimelightX();
 };

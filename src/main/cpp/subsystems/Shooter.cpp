@@ -11,15 +11,15 @@
 Shooter::Shooter() {
 	//wpi::outs() << "Shooter constructed\n";
     
-    //table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 }
 
 void Shooter::ShooterInit() {
 	//wpi::outs() << "Shooter initialized\n";
     
-	//table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+	table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 	//frc::Shuffleboard::GetTab("Numbers").Add("Hood",yTurretMotor->GetSelectedSensorPosition());
-	//nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
+	nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
 
     initialized = true;
 
@@ -84,6 +84,14 @@ void Shooter::ShooterInit() {
 void Shooter::SetMotorsPO (double left, double right) {
 	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
 	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
+}
+
+void Shooter::ChoosePipeline (int pipeline) {
+    table->PutNumber("pipeline", pipeline);
+}
+
+double Shooter::GetLimelightX () {
+    return table->GetNumber("tx", 0.0);
 }
 
 void Shooter::Periodic() {

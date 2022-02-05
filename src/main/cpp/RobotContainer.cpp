@@ -30,6 +30,10 @@ void RobotContainer::ConfigureButtonBindings() {
    // Configure your button bindings here
 
     m_manET.WhileHeld(m_ManualShoot);
+    m_manA.WhileHeld(Center(&m_driveBase, &m_shooter));
+    m_manB.WhileHeld(m_Pipeline1);
+    m_manX.WhileHeld(m_Pipeline0);
+    m_manY.WhileHeld(m_Pipeline2);
 }
 
 void RobotContainer::OpenDriveBaseFile() {
