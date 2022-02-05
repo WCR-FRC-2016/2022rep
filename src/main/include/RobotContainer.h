@@ -12,11 +12,14 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <math.h>
 
 #include "subsystems/DriveBase.h"
+#include "subsystems/Shooter.h"
 #include "commands/ArcadeDrive.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"
+#include <frc2/command/RunCommand.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/button/Button.h>
 
@@ -36,6 +39,12 @@ class RobotContainer {
   void SetConfig();
   void OpenDriveBaseFile();
   void CloseDriveBaseFile();
+
+  // Manip Either Trigger: Shoot
+  frc2::Button m_manET{[&] {return (0.2 < m_manStick.GetRightTriggerAxis()) || (0.2 < m_manStick.GetLeftTriggerAxis());} };
+  
+  frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
+  frc2::InstantCommand m_ManualShoot{[this] {m_shooter.SetMotorsPO(-pow(m_manStick.GetRightTriggerAxis(), 2), -pow(m_manStick.GetLeftTriggerAxis(), 2));}, {&m_shooter} };
   
   int command_no;
  
@@ -44,6 +53,7 @@ class RobotContainer {
   frc::XboxController m_manStick{1};
   
   DriveBase m_driveBase;
+  Shooter m_shooter;
 
   void ConfigureButtonBindings();
 

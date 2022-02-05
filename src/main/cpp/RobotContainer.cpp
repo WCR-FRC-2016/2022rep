@@ -18,6 +18,8 @@ RobotContainer::RobotContainer() {
     [this] { return m_driverStick.GetRightX()/2;} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
+
+   m_shooter.SetDefaultCommand(m_NoShoot);
    
    ConfigureButtonBindings();
 
@@ -26,6 +28,8 @@ RobotContainer::RobotContainer() {
 
 void RobotContainer::ConfigureButtonBindings() {
    // Configure your button bindings here
+
+    m_manET.WhileHeld(m_ManualShoot);
 }
 
 void RobotContainer::OpenDriveBaseFile() {

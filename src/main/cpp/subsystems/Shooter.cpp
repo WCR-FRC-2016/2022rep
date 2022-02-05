@@ -22,6 +22,68 @@ void Shooter::ShooterInit() {
 	//nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
 
     initialized = true;
+
+    Front = new WPI_TalonSRX (shooterFrontDrive);
+    Back = new WPI_TalonSRX (shooterBackDrive);
+
+    Front->ConfigFactoryDefault();
+    Back->ConfigFactoryDefault();
+
+    Front->SetInverted(false);
+    Back->SetInverted(false);
+
+    Front->ConfigPeakCurrentLimit(50,0);
+    Back->ConfigPeakCurrentLimit(50,0);
+
+    Front->ConfigPeakCurrentDuration(1000,0);
+    Back->ConfigPeakCurrentDuration(1000,0);
+
+	/*
+    Front->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+    Back->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
+	*/
+
+    Front->EnableCurrentLimit(true);
+    Back->EnableCurrentLimit(true);
+
+
+    //PID BTW
+    /*
+    Front->Config_kP(0, LeftP, 0);
+    Front->Config_kI(0, LeftI, 0);
+    Front->Config_kD(0, LeftD, 0);
+    Back->Config_kP(0, RightP, 0);
+    Back->Config_kI(0, RightI, 0);
+    Back->Config_kD(0, RightD, 0);
+    */
+
+    Front->ConfigNominalOutputForward(NominalOutput, 0);
+    Front->ConfigNominalOutputReverse(-NominalOutput, 0);
+    Back->ConfigNominalOutputForward(NominalOutput, 0);
+    Back->ConfigNominalOutputReverse(-NominalOutput, 0);
+
+	/*
+    Front->SetSensorPhase(false);
+    Back->SetSensorPhase(false);
+	*/
+
+    Front->ConfigPeakOutputForward(MaxOutput, 0);
+    Front->ConfigPeakOutputReverse(-MaxOutput, 0);
+    Back->ConfigPeakOutputForward(MaxOutput, 0);
+    Back->ConfigPeakOutputReverse(-MaxOutput, 0);
+
+    Front->ConfigNeutralDeadband(robotConfig["PIDDeadband"], 0);
+    Back->ConfigNeutralDeadband(robotConfig["PIDDeadband"], 0);
+
+	/*
+    Front->SetSelectedSensorPosition(0,0,0);
+    Back->SetSelectedSensorPosition(0,0,0);
+	*/
+}
+
+void Shooter::SetMotorsPO (double left, double right) {
+	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
+	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
 }
 
 void Shooter::Periodic() {

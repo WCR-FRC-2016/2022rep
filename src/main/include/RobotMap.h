@@ -24,6 +24,9 @@ const int frontRightDrive = 1; //encoder
 const int backLeftDrive = 15;
 const int backRightDrive = 0;
 
+const int shooterFrontDrive = 12;
+const int shooterBackDrive = 13;
+
 // These aren't const because we might change them through a file.
 
 // Must be stored in map to be set from file.

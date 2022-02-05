@@ -7,6 +7,7 @@
 
 #pragma once
 #include <frc2/command/SubsystemBase.h>
+#include <ctre/Phoenix.h>
 //#include "networktables/NetworkTable.h"
 //#include "networktables/NetworkTableInstance.h"
 
@@ -14,6 +15,10 @@ class Shooter : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
+
+  WPI_TalonSRX * Front;
+  WPI_TalonSRX * Back;
+
   bool initialized = false;
 
   //std::shared_ptr<nt::NetworkTable> table;
@@ -22,4 +27,5 @@ class Shooter : public frc2::SubsystemBase {
   Shooter();
   void ShooterInit();
   void Periodic();
+  void SetMotorsPO(double left, double right);
 };
