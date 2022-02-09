@@ -9,6 +9,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "frc/controller/PIDController.h"
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
 
@@ -36,4 +37,6 @@ class Center
 private:
   DriveBase* m_drivebase;
   Shooter* m_shooter;
+
+  frc2::PIDController pid;
 };

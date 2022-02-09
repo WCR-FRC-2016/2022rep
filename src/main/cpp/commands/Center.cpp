@@ -11,6 +11,8 @@
 Center::Center(DriveBase* drivebase, Shooter* shooter) : m_drivebase{drivebase}, m_shooter{shooter}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase, shooter});
+
+  pid = PIDController (robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"]);
 }
 
 // Called when the command is initially scheduled.
@@ -18,15 +20,11 @@ void Center::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void Center::Execute() {
-  double passRotation = m_shooter->GetLimelightX()/100;
+  double rawRotation = m_shooter->GetLimelightX();
+
+  double passRotation = pid.Calculate(rawRotation, 0);
 
   if (abs(passRotation*1000)<10) {passRotation = 0;}
-
-  if (passRotation<0) {
-    passRotation-=robotConfig["minTurn"];
-  } else {
-    passRotation+=robotConfig["minTurn"];
-  }
 
   passRotation = std::clamp(passRotation, -1.0, 1.0);
 
