@@ -12,6 +12,8 @@
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
 
+#include <string>
+
 /**
  * An example command.
  *

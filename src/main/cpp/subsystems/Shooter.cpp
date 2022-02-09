@@ -86,7 +86,13 @@ void Shooter::SetMotorsPO (double left, double right) {
 	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
 }
 
-void Shooter::ChoosePipeline (int pipeline) {
+void Shooter::ChoosePipeline() {
+    int pipeline = 2; // Tape pipeline
+
+    if (table->GetNumber("pipeline",0)==2) {
+        pipeline = (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)?1:0; // Red/Blue pipelines, resp.
+    }
+
     table->PutNumber("pipeline", pipeline);
 }
 

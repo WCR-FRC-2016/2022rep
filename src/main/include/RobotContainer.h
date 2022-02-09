@@ -45,15 +45,9 @@ class RobotContainer {
   frc2::Button m_manET{[&] {return (0.2 < m_manStick.GetRightTriggerAxis()) || (0.2 < m_manStick.GetLeftTriggerAxis());} };
   
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
-  
-  frc2::Button m_manB{[&] {return m_manStick.GetBButton();}};
-  frc2::InstantCommand m_Pipeline1{[this] {m_shooter.ChoosePipeline(1);} , {&m_shooter} };
-  
-  frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
-  frc2::InstantCommand m_Pipeline0{[this] {m_shooter.ChoosePipeline(0);} , {&m_shooter} };
  
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
-  frc2::InstantCommand m_Pipeline2{[this] {m_shooter.ChoosePipeline(2);} , {&m_shooter} };
+  frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
   frc2::InstantCommand m_ManualShoot{[this] {m_shooter.SetMotorsPO(-pow(m_manStick.GetRightTriggerAxis(), 2), -pow(m_manStick.GetLeftTriggerAxis(), 2));}, {&m_shooter} };

@@ -10,7 +10,11 @@
 std::map<std::string, double> robotConfig = {
     {"RampTime", 0.325},
     {"PIDDeadband", 0.114}, // TODO: PID needs to be tuned.
+    {"minTurn", 0.1},
     {"record", 0},
+    {"aimingP", 1},
+    {"aimingI", 0},
+    {"aimingD", 0},
 };
 
 RobotContainer::RobotContainer() {
@@ -31,9 +35,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
     m_manET.WhileHeld(m_ManualShoot);
     m_manA.WhileHeld(Center(&m_driveBase, &m_shooter));
-    m_manB.WhileHeld(m_Pipeline1);
-    m_manX.WhileHeld(m_Pipeline0);
-    m_manY.WhileHeld(m_Pipeline2);
+    m_manY.WhenPressed(m_PipelineSwap);
 }
 
 void RobotContainer::OpenDriveBaseFile() {

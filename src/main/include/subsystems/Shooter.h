@@ -10,6 +10,7 @@
 #include <ctre/Phoenix.h>
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
+#include "frc/DriverStation.h"
 
 class Shooter : public frc2::SubsystemBase {
  private:
@@ -28,6 +29,6 @@ class Shooter : public frc2::SubsystemBase {
   void ShooterInit();
   void Periodic();
   void SetMotorsPO(double left, double right);
-  void ChoosePipeline(int pipeline);
+  void ChoosePipeline();
   double GetLimelightX();
 };

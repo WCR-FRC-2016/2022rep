@@ -18,9 +18,20 @@ void Center::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void Center::Execute() {
-  double passRotation = m_shooter->GetLimelightX();
+  double passRotation = m_shooter->GetLimelightX()/100;
 
-  if (abs(passRotation*1000)<200) {passRotation = 0;}
+  if (abs(passRotation*1000)<10) {passRotation = 0;}
+
+  if (passRotation<0) {
+    passRotation-=robotConfig["minTurn"];
+  } else {
+    passRotation+=robotConfig["minTurn"];
+  }
+
+  passRotation = std::clamp(passRotation, -1.0, 1.0);
+
+  wpi::outs() << std::to_string(passRotation) << "\n";
+  wpi::outs() << "TestOutput\n";
   
   m_drivebase->ArcadeDrive(passRotation, 0.0);
 }
