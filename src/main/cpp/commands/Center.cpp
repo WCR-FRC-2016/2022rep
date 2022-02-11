@@ -8,11 +8,9 @@
 #include "commands/Center.h"
 #include "RobotMap.h"
 
-Center::Center(DriveBase* drivebase, Shooter* shooter) : m_drivebase{drivebase}, m_shooter{shooter}  {
+Center::Center(DriveBase* drivebase, Shooter* shooter) : pid{frc2::PIDController(robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"])}, m_drivebase{drivebase}, m_shooter{shooter}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase, shooter});
-
-  pid = PIDController (robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"]);
 }
 
 // Called when the command is initially scheduled.

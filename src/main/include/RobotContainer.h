@@ -17,6 +17,7 @@
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
 #include "commands/ArcadeDrive.h"
+#include "commands/LIDARTest.h"
 #include "commands/Center.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"

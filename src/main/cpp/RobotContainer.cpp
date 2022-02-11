@@ -15,13 +15,19 @@ std::map<std::string, double> robotConfig = {
     {"aimingP", 1},
     {"aimingI", 0},
     {"aimingD", 0},
+    {"LIDARm", 43254.71311},
+    {"LIDARb", -8.92784}
 };
 
 RobotContainer::RobotContainer() {
+   /*
    m_driveBase.SetDefaultCommand(ArcadeDrive(&m_driveBase, 
     [this] { return m_driverStick.GetRightX()/2;} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
+   */
+
+  m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
 
    m_shooter.SetDefaultCommand(m_NoShoot);
    

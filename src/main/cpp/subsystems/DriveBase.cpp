@@ -237,3 +237,7 @@ void DriveBase::openFile() {
 void DriveBase::closeFile() {
 	if (recordfile.is_open()) recordfile.close();
 }
+
+void DriveBase::writeToFile(std::string msg) {
+	recordfile << msg;
+}

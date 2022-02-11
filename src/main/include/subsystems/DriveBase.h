@@ -11,6 +11,7 @@
 #include <frc/drive/DifferentialDrive.h>
 
 #include <fstream>
+#include <string>
 //#include <AHRS.h>
 
 class DriveBase : public frc2::SubsystemBase {
@@ -40,4 +41,5 @@ class DriveBase : public frc2::SubsystemBase {
   void slowDrive(bool yButton);
   void openFile();
   void closeFile();
+  void writeToFile(std::string msg);
 };

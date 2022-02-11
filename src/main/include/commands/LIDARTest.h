@@ -9,11 +9,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "frc/controller/PIDController.h"
+#include <frc/Counter.h>
 #include "subsystems/DriveBase.h"
-#include "subsystems/Shooter.h"
-
-#include <string>
+#include "RobotMap.h"
 
 /**
  * An example command.
@@ -22,10 +20,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Center
-    : public frc2::CommandHelper<frc2::CommandBase, Center> {
+class LIDARTest
+    : public frc2::CommandHelper<frc2::CommandBase, LIDARTest> {
  public:
-  Center(DriveBase* drivebase, Shooter* shooter);
+  LIDARTest(DriveBase* drivebase);
 
   void Initialize() override;
 
@@ -34,9 +32,8 @@ class Center
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
-  frc2::PIDController pid;
 private:
   DriveBase* m_drivebase;
-  Shooter* m_shooter;
+  frc::Counter counter{frc::Counter::Mode::kSemiperiod};
+  
 };
