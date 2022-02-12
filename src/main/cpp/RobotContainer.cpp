@@ -30,6 +30,8 @@ RobotContainer::RobotContainer() {
   m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
 
    m_shooter.SetDefaultCommand(m_NoShoot);
+
+   m_climber.SetDefaultCommand(m_ClimbControls);
    
    ConfigureButtonBindings();
 

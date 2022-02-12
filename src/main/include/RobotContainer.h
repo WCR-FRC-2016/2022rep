@@ -16,6 +16,7 @@
 
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
+#include "subsystems/Climber.h"
 #include "commands/ArcadeDrive.h"
 #include "commands/LIDARTest.h"
 #include "commands/Center.h"
@@ -44,14 +45,23 @@ class RobotContainer {
 
   // Manip Either Trigger: Shoot
   frc2::Button m_manET{[&] {return (0.2 < m_manStick.GetRightTriggerAxis()) || (0.2 < m_manStick.GetLeftTriggerAxis());} };
+  frc2::InstantCommand m_ManualShoot{[this] {m_shooter.SetMotorsPO(-pow(m_manStick.GetRightTriggerAxis(), 2), -pow(m_manStick.GetLeftTriggerAxis(), 2));}, {&m_shooter} };
   
+  // Manip A: Center
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
  
+  // Manip Y: Swap Vision Target
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
   frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
-  frc2::InstantCommand m_ManualShoot{[this] {m_shooter.SetMotorsPO(-pow(m_manStick.GetRightTriggerAxis(), 2), -pow(m_manStick.GetLeftTriggerAxis(), 2));}, {&m_shooter} };
+  frc2::RunCommand m_ClimbControls{[this] {
+    double m_turn   = m_manStick.GetRightX();
+    double m_extend = m_manStick.GetLeftY();
+    double passTurn   = (abs(m_turn*1000)   > 200?m_turn:0.0);
+    double passExtend = (abs(m_extend*1000) > 200?m_extend:0.0);
+    m_climber.SetMotorsPO(passTurn, passExtend);
+  }, {&m_climber}};
   
   int command_no;
  
@@ -61,6 +71,7 @@ class RobotContainer {
   
   DriveBase m_driveBase;
   Shooter m_shooter;
+  Climber m_climber;
 
   void ConfigureButtonBindings();
 

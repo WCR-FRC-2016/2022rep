@@ -27,6 +27,9 @@ const int backRightDrive = 0;
 const int shooterFrontDrive = 12;
 const int shooterBackDrive = 13;
 
+const int climberTurnDrive = 2;
+const int climberExtendDrive = 3;
+
 // These aren't const because we might change them through a file.
 
 // Must be stored in map to be set from file.
