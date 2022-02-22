@@ -30,7 +30,7 @@ RobotContainer::RobotContainer() {
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
 
-   if (robotConfig["useLIDAR"]) {
+   if (robotConfig["useLIDAR"]>0) {
        // TODO: Make this not make the robot not drive.
        m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
    }
