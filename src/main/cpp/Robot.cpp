@@ -11,12 +11,14 @@
 #include <cameraserver/CameraServer.h>
 
 void Robot::RobotInit() {
-  cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
-  // frc::CameraServer::
+  if (robotConfig["useCamera"]>0) {
+    cs::UsbCamera camera = frc::CameraServer::StartAutomaticCapture();
+    // frc::CameraServer::
 
-  //camera.SetVideoMode(cs::VideoMode::kYUYV, 320, 240, 15);
+    //camera.SetVideoMode(cs::VideoMode::kYUYV, 320, 240, 15);
 
-  //wpi::outs() << camera.GetPath() << "\n";
+    //wpi::outs() << camera.GetPath() << "\n";
+  }
 }
 
 /**
