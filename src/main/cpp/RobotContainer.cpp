@@ -20,14 +20,14 @@ std::map<std::string, double> robotConfig = {
 };
 
 RobotContainer::RobotContainer() {
-   /*
+   //*
    m_driveBase.SetDefaultCommand(ArcadeDrive(&m_driveBase, 
     [this] { return m_driverStick.GetRightX()/2;} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
-   */
+   //*/
 
-  m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
+  //m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
 
    m_shooter.SetDefaultCommand(m_NoShoot);
 
