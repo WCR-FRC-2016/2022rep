@@ -16,26 +16,30 @@ std::map<std::string, double> robotConfig = {
     {"aimingI", 0},
     {"aimingD", 0},
     {"LIDARm", 43254.71311},
-    {"LIDARb", -8.92784}
+    {"LIDARb", -8.92784},
+    {"useCamera", 1},
+    {"useLIDAR", 1},
+    {"useLimelight", 1}
 };
 
 RobotContainer::RobotContainer() {
-   //*
+   SetConfig();
+    
    m_driveBase.SetDefaultCommand(ArcadeDrive(&m_driveBase, 
     [this] { return m_driverStick.GetRightX()/2;} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
-   //*/
 
-  //m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
+   if (robotConfig["useLIDAR"]) {
+       // TODO: Make this not make the robot not drive.
+       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
+   }
 
    m_shooter.SetDefaultCommand(m_NoShoot);
 
    m_climber.SetDefaultCommand(m_ClimbControls);
    
    ConfigureButtonBindings();
-
-   SetConfig();
 }
 
 void RobotContainer::ConfigureButtonBindings() {
