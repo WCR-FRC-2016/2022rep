@@ -11,15 +11,19 @@
 Shooter::Shooter() {
 	//wpi::outs() << "Shooter constructed\n";
     
-    table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    if (robotConfig["useLimelight"]>0) {
+        table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+    }
 }
 
 void Shooter::ShooterInit() {
 	//wpi::outs() << "Shooter initialized\n";
     
-	table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
-	//frc::Shuffleboard::GetTab("Numbers").Add("Hood",yTurretMotor->GetSelectedSensorPosition());
-	nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
+    if (robotConfig["useLimelight"]>0) {
+        table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+        //frc::Shuffleboard::GetTab("Numbers").Add("Hood",yTurretMotor->GetSelectedSensorPosition());
+        nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
+    }
 
     initialized = true;
 
@@ -87,17 +91,23 @@ void Shooter::SetMotorsPO (double left, double right) {
 }
 
 void Shooter::ChoosePipeline() {
-    int pipeline = 2; // Tape pipeline
+    if (robotConfig["useLimelight"]>0) {
+        int pipeline = 2; // Tape pipeline
 
-    if (table->GetNumber("pipeline",0)==2) {
-        pipeline = (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)?1:0; // Red/Blue pipelines, resp.
+        if (table->GetNumber("pipeline",0)==2) {
+            pipeline = (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed)?1:0; // Red/Blue pipelines, resp.
+        }
+
+        table->PutNumber("pipeline", pipeline);
     }
-
-    table->PutNumber("pipeline", pipeline);
 }
 
 double Shooter::GetLimelightX () {
-    return table->GetNumber("tx", 0.0);
+    if (robotConfig["useLimelight"]>0) {
+        return table->GetNumber("tx", 0.0);
+    } else {
+        return 0.0;
+    }
 }
 
 void Shooter::Periodic() {
