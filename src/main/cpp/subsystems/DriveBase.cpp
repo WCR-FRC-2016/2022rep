@@ -211,23 +211,11 @@ void DriveBase::Periodic() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 
-void DriveBase::reverseDrive (bool bButton) {
-if (bButton) {
+void DriveBase::reverseDrive () {
 	driveConstant = driveConstant * -1;
 }
-}
-void DriveBase::slowDrive (bool yButton) {
-	if (yButton){
-		if (speed == 1)
-		{
-			speed = .5;
-		}
-		else
-		{
-			speed = 1;
-		}
-		
-	}
+void DriveBase::adjustSpeed(double adjustment) {
+	speed = std::clamp(speed+adjustment, 0.0, 1.0);
 }
 
 void DriveBase::openFile() {
