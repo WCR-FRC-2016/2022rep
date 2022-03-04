@@ -17,9 +17,9 @@ std::map<std::string, double> robotConfig = {
     {"aimingD", 0},
     {"LIDARm", 43254.71311},
     {"LIDARb", -8.92784},
-    {"useCamera", 1},
-    {"useLIDAR", 1},
-    {"useLimelight", 1}
+    {"useCamera", 0},
+    {"useLIDAR", 0},
+    {"useLimelight", 0}
 };
 
 RobotContainer::RobotContainer() {
