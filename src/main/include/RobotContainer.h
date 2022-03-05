@@ -44,15 +44,15 @@ class RobotContainer {
   void CloseDriveBaseFile();
   
   // Driver Left Bumper: Adjust speed -0.1
-  frc2::Button m_driverLB{[&] {return m_driveStick.GetLeftBumper();}};
+  frc2::Button m_driverLB{[&] {return m_driverStick.GetLeftBumper();}};
   frc2::InstantCommand m_AdjustSpeedDown{[this] {m_driveBase.adjustSpeed(-0.1);} , {&m_driveBase} };
   
   // Driver Right Bumper: Adjust speed +0.1
-  frc2::Button m_driverRB{[&] {return m_driveStick.GetRightBumper();}};
+  frc2::Button m_driverRB{[&] {return m_driverStick.GetRightBumper();}};
   frc2::InstantCommand m_AdjustSpeedUp{[this] {m_driveBase.adjustSpeed(0.1);} , {&m_driveBase} };
   
   // Driver B: Reverse Drive
-  frc2::Button m_driverB{[&] {return m_driveStick.GetBButton();}};
+  frc2::Button m_driverB{[&] {return m_driverStick.GetBButton();}};
   frc2::InstantCommand m_ReverseDrive{[this] {m_driveBase.reverseDrive();} , {&m_driveBase} };
 
   // Manip Either Trigger: Shoot
