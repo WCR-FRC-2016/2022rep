@@ -19,10 +19,10 @@
  * they are needed.
  */
 
-const int frontLeftDrive = 14; //encoder
-const int frontRightDrive = 1; //encoder
-const int backLeftDrive = 15;
-const int backRightDrive = 0;
+const int frontLeftDrive = 1; //encoder
+const int frontRightDrive = 14; //encoder
+const int backLeftDrive = 0;
+const int backRightDrive = 15;
 
 const int shooterFrontDrive = 12;
 const int shooterBackDrive = 13;
