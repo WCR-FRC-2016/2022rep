@@ -19,7 +19,7 @@ class DriveBase : public frc2::SubsystemBase {
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
   bool initialized = false;
-  double driveConstant = -1;
+  double driveConstant = 1;
   double speed = 1;
 
   WPI_TalonSRX * FrontL;
