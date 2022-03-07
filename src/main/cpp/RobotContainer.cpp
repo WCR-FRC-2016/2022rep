@@ -45,8 +45,9 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureButtonBindings() {
    // Configure your button bindings here
    
-	m_driverLB.WhenPressed(m_AdjustSpeedDown);
-	m_driverRB.WhenPressed(m_AdjustSpeedUp);
+	m_driverLT.WhenPressed(m_AdjustSpeedDown);
+	m_driverRT.WhenPressed(m_AdjustSpeedUp);
+	m_driverRB.WhenPressed(m_SwapSpeed);
 	m_driverB.WhenPressed(m_ReverseDrive);
 
     m_manET.WhileHeld(m_ManualShoot);

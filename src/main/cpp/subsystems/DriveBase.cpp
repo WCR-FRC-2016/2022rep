@@ -214,8 +214,13 @@ void DriveBase::Periodic() {
 void DriveBase::reverseDrive () {
 	driveConstant = driveConstant * -1;
 }
-void DriveBase::adjustSpeed(double adjustment) {
-	speed = std::clamp(speed+adjustment, 0.0, 1.0);
+
+double DriveBase::getSpeed() {
+	return speed;
+}
+
+void DriveBase::setSpeed(double newSpeed) {
+	speed = std::clamp(newSpeed, 0.0, 1.0);
 }
 
 void DriveBase::openFile() {

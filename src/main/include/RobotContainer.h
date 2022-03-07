@@ -43,13 +43,17 @@ class RobotContainer {
   void OpenDriveBaseFile();
   void CloseDriveBaseFile();
   
-  // Driver Left Bumper: Adjust speed -0.1
-  frc2::Button m_driverLB{[&] {return m_driverStick.GetLeftBumper();}};
-  frc2::InstantCommand m_AdjustSpeedDown{[this] {m_driveBase.adjustSpeed(-0.1);} , {&m_driveBase} };
+  // Driver Left Trigger: Adjust speed -0.1
+  frc2::Button m_driverLT{[&] {return 0.5 < m_driverStick.GetLeftTriggerAxis();}};
+  frc2::InstantCommand m_AdjustSpeedDown{[this] {m_driveBase.setSpeed(m_driveBase.getSpeed()-0.1);} , {&m_driveBase} };
   
-  // Driver Right Bumper: Adjust speed +0.1
+  // Driver Right Trigger: Adjust speed +0.1
+  frc2::Button m_driverRT{[&] {return 0.5 < m_driverStick.GetRightTriggerAxis();}};
+  frc2::InstantCommand m_AdjustSpeedUp{[this] {m_driveBase.setSpeed(m_driveBase.getSpeed()+0.1);} , {&m_driveBase} };
+  
+  // Driver Right Bumper: Swap speed to 1 or 0.5 (0.5 if at 1, otherwise 1)
   frc2::Button m_driverRB{[&] {return m_driverStick.GetRightBumper();}};
-  frc2::InstantCommand m_AdjustSpeedUp{[this] {m_driveBase.adjustSpeed(0.1);} , {&m_driveBase} };
+  frc2::InstantCommand m_SwapSpeed{[this] {m_driveBase.setSpeed(m_driveBase.getSpeed()>0.95?0.5:1.0);} , {&m_driveBase} };
   
   // Driver B: Reverse Drive
   frc2::Button m_driverB{[&] {return m_driverStick.GetBButton();}};

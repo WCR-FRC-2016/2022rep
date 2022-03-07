@@ -38,7 +38,8 @@ class DriveBase : public frc2::SubsystemBase {
   void ArcadeDrive(double xAxis, double yAxis);
   void RampSwitch(bool rampOn);
   void reverseDrive();
-  void adjustSpeed(double adjustment);
+  double getSpeed();
+  void setSpeed(double newSpeed);
   void openFile();
   void closeFile();
   void writeToFile(std::string msg);
