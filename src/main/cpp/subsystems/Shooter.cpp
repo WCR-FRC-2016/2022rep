@@ -90,6 +90,10 @@ void Shooter::SetMotorsPO (double left, double right) {
 	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
 }
 
+double Shooter::GetMotorSpeed (bool back) {
+    return -(back?Back:Front)->GetSensorCollection().GetQuadratureVelocity();
+}
+
 void Shooter::ChoosePipeline() {
     if (robotConfig["useLimelight"]>0) {
         int pipeline = 2; // Tape pipeline

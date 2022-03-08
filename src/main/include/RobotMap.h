@@ -30,6 +30,11 @@ const int shooterBackDrive = 13;
 const int climberTurnDrive = 2;
 const int climberExtendDrive = 3;
 
+const int collectorMotorDrive = 4;
+const int collectorLiftMotorDrive = 5;
+
+const int elevatorMotorDrive = 11;
+
 // These aren't const because we might change them through a file.
 
 // Must be stored in map to be set from file.

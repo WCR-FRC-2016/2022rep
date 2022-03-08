@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
@@ -8,28 +8,19 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-#include "networktables/NetworkTable.h"
-#include "networktables/NetworkTableInstance.h"
-#include "frc/DriverStation.h"
 
-class Shooter : public frc2::SubsystemBase {
+class Elevator : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
-
-  WPI_TalonSRX * Front;
-  WPI_TalonSRX * Back;
-
   bool initialized = false;
 
-  std::shared_ptr<nt::NetworkTable> table;
+  WPI_TalonSRX * Motor;
 
  public:
-  Shooter();
-  void ShooterInit();
+  Elevator();
+  void ElevatorInit();
   void Periodic();
-  void SetMotorsPO(double left, double right);
-  double GetMotorSpeed(bool back);
-  void ChoosePipeline();
-  double GetLimelightX();
+  void SetMotorPO(double PO);
+  bool GetSwitch();
 };

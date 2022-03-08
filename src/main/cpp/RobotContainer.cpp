@@ -19,7 +19,9 @@ std::map<std::string, double> robotConfig = {
     {"LIDARb", -8.92784},
     {"useCamera", 0},
     {"useLIDAR", 0},
-    {"useLimelight", 0}
+    {"useLimelight", 0},
+    {"shootingSpeedFront", 20000},
+    {"shootingSpeedBack", 20000}
 };
 
 RobotContainer::RobotContainer() {
@@ -39,6 +41,10 @@ RobotContainer::RobotContainer() {
 
    m_climber.SetDefaultCommand(m_ClimbControls);
    
+   m_collector.SetDefaultCommand(m_NoCollect);
+
+   m_elevator.SetDefaultCommand(m_NoElevate);
+   
    ConfigureButtonBindings();
 }
 
@@ -50,8 +56,11 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_driverRB.WhenPressed(m_SwapSpeed);
 	m_driverB.WhenPressed(m_ReverseDrive);
 
-    m_manET.WhileHeld(m_ManualShoot);
-    m_manA.WhileHeld(Center(&m_driveBase, &m_shooter));
+    //m_manET.WhileHeld(m_ManualShoot);
+    m_manRT.WhileHeld(m_Shoot);
+    m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
+    m_manB.WhileHeld(m_Uncollect);
+    m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
     m_manY.WhenPressed(m_PipelineSwap);
 }
 

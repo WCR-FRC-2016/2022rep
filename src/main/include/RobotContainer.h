@@ -17,9 +17,12 @@
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
 #include "subsystems/Climber.h"
+#include "subsystems/Collector.h"
+#include "subsystems/Elevator.h"
 #include "commands/ArcadeDrive.h"
 #include "commands/LIDARTest.h"
 #include "commands/Center.h"
+#include "commands/Collect.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"
 #include <frc2/command/RunCommand.h>
@@ -59,18 +62,40 @@ class RobotContainer {
   frc2::Button m_driverB{[&] {return m_driverStick.GetBButton();}};
   frc2::InstantCommand m_ReverseDrive{[this] {m_driveBase.reverseDrive();} , {&m_driveBase} };
 
-  // Manip Either Trigger: Shoot
-  frc2::Button m_manET{[&] {return (0.2 < m_manStick.GetRightTriggerAxis()) || (0.2 < m_manStick.GetLeftTriggerAxis());} };
+  /*
+  // Manip Either Trigger: Shoot (old test command for calibration)
+  frc2::Button m_manET{[&] {return (0.2 < m_manStick.GetRightTriggerAxis()) || (0.2 < m_manStick.GetLeftTriggerAxis());}};
   frc2::InstantCommand m_ManualShoot{[this] {m_shooter.SetMotorsPO(-pow(m_manStick.GetRightTriggerAxis(), 2), -pow(m_manStick.GetLeftTriggerAxis(), 2));}, {&m_shooter} };
-  
-  // Manip A: Center
+  */
+
+  // Manip Right Trigger: Shoot
+  frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
+  frc2::InstantCommand m_Shoot{[this] {
+    m_shooter.SetMotorsPO(-1,1);
+    if (m_shooter.GetMotorSpeed(true)>robotConfig["shootingSpeedFront"] && m_shooter.GetMotorSpeed(false)>robotConfig["shootingSpeedBack"]) {
+      m_elevator.SetMotorPO(1);
+    } else {
+      m_elevator.SetMotorPO(0);
+    }
+  }, {&m_shooter, &m_elevator}};
+
+  // Manip A: Collect
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
+
+  // Manip B: Uncollect
+  frc2::Button m_manB{[&] {return m_manStick.GetBButton();}};
+  frc2::InstantCommand m_Uncollect{[this] {m_collector.SetMotorPO(-1); m_elevator.SetMotorPO(-1);} , {&m_collector, &m_elevator} };
+  
+  // Manip X: Center
+  frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
  
   // Manip Y: Swap Vision Target
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
   frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
+  frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0); m_collector.SetLiftMotorPOHold(-1);}, {&m_collector} };
+  frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0);}, {&m_elevator} };
   frc2::RunCommand m_ClimbControls{[this] {
     double m_turn   = m_manStick.GetRightX();
     double m_extend = m_manStick.GetLeftY();
@@ -88,6 +113,8 @@ class RobotContainer {
   DriveBase m_driveBase;
   Shooter m_shooter;
   Climber m_climber;
+  Collector m_collector;
+  Elevator m_elevator;
 
   void ConfigureButtonBindings();
 
