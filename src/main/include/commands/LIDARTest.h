@@ -12,6 +12,7 @@
 #include <frc/Counter.h>
 #include "subsystems/DriveBase.h"
 #include "RobotMap.h"
+#include "Recording.h"
 
 /**
  * An example command.
@@ -34,6 +35,7 @@ class LIDARTest
   bool IsFinished() override;
 private:
   DriveBase* m_drivebase;
+  Recording* m_recording;
   frc::Counter counter{frc::Counter::Mode::kSemiperiod};
   
 };

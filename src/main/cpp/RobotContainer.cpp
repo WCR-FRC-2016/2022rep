@@ -23,6 +23,7 @@ std::map<std::string, double> robotConfig = {
     {"shootingSpeedFront", 20000},
     {"shootingSpeedBack", 20000}
 };
+// When we make the how-to for config options, don't forget autoFileName, which expects a string and thus isn't in this map.
 
 RobotContainer::RobotContainer() {
    SetConfig();
@@ -34,7 +35,7 @@ RobotContainer::RobotContainer() {
 
    if (robotConfig["useLIDAR"]>0) {
        // TODO: Make this not make the robot not drive.
-       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
+       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase, &m_recording));
    }
 
    m_shooter.SetDefaultCommand(m_NoShoot);
@@ -62,14 +63,6 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
     m_manY.WhenPressed(m_PipelineSwap);
-}
-
-void RobotContainer::OpenDriveBaseFile() {
-   m_driveBase.openFile();
-}
-
-void RobotContainer::CloseDriveBaseFile() {
-   m_driveBase.closeFile();
 }
 
 void RobotContainer::ReadFile() {

@@ -7,7 +7,7 @@
 
 #include "commands/LIDARTest.h"
 
-LIDARTest::LIDARTest(DriveBase* drivebase) : m_drivebase{drivebase}  {
+LIDARTest::LIDARTest(DriveBase* drivebase, Recording* recording) : m_drivebase{drivebase}, m_recording{recording} {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase});
   
@@ -16,8 +16,6 @@ LIDARTest::LIDARTest(DriveBase* drivebase) : m_drivebase{drivebase}  {
   
   // Set the encoder to count pulse duration from rising edge to falling edge
   counter.SetSemiPeriodMode(true);
-
-  m_drivebase->openFile();
 }
 
 // Called when the command is initially scheduled.
@@ -26,10 +24,10 @@ void LIDARTest::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LIDARTest::Execute() {
-    m_drivebase->writeToFile(std::to_string((double) counter.GetPeriod()));
-    m_drivebase->writeToFile(" ");
-    m_drivebase->writeToFile(std::to_string((double) counter.GetPeriod()*robotConfig["LIDARm"] + robotConfig["LIDARb"]));
-    m_drivebase->writeToFile("\n");
+    m_recording->WriteToFile(std::to_string((double) counter.GetPeriod()));
+    m_recording->WriteToFile(" ");
+    m_recording->WriteToFile(std::to_string((double) counter.GetPeriod()*robotConfig["LIDARm"] + robotConfig["LIDARb"]));
+    m_recording->WriteToFile("\n");
 }
 
 // Called once the command ends or is interrupted.
