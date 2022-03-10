@@ -48,10 +48,11 @@ RobotContainer::RobotContainer() {
     [this] { return m_driverStick.GetRightX()*robotConfig["driveMaxSpeed"];} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
+   
+   m_driveBase.SetRecording(&m_recording);
 
    if (robotConfig["useLIDAR"]>0) {
-       // TODO: Make this not make the robot not drive.
-       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase, &m_recording));
+       LIDARTest(&m_recording).Schedule();
    }
    
    if (robotConfig["useRumbleManip"]>0) m_ManipRumble.Schedule();

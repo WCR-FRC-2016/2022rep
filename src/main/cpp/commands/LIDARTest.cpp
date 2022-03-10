@@ -7,10 +7,7 @@
 
 #include "commands/LIDARTest.h"
 
-LIDARTest::LIDARTest(DriveBase* drivebase, Recording* recording) : m_drivebase{drivebase}, m_recording{recording} {
-  // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({drivebase});
-  
+LIDARTest::LIDARTest(Recording* recording) : m_recording{recording} {
   // Set up the input channel for the counter
   counter.SetUpSource(0);
   
@@ -31,7 +28,7 @@ void LIDARTest::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void LIDARTest::End(bool interrupted) {m_drivebase->closeFile();}
+void LIDARTest::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool LIDARTest::IsFinished() { return false; }
