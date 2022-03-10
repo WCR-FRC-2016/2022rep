@@ -106,6 +106,14 @@ void RobotContainer::SetConfig() {
    }
 }
 
+void RobotContainer::OpenRecordingFile() {
+   m_recording.OpenFile();
+}
+
+void RobotContainer::CloseRecordingFile() {
+   m_recording.CloseFile();
+}
+
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // Read the file
 

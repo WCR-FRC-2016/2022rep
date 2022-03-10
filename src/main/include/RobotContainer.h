@@ -44,6 +44,8 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
   void ReadFile();
   void SetConfig();
+  void OpenRecordingFile();
+  void CloseRecordingFile();
   
   // Driver Left Trigger: Adjust speed -0.1
   frc2::Button m_driverLT{[&] {return 0.5 < m_driverStick.GetLeftTriggerAxis();}};
@@ -109,8 +111,6 @@ class RobotContainer {
   frc::XboxController m_driverStick{0};
   frc::XboxController m_manStick{1};
   
-  Recording m_recording {"/home/lvuser/wcrj/replay.txt"};
-  
   DriveBase m_driveBase;
   Shooter m_shooter;
   Climber m_climber;
@@ -123,4 +123,6 @@ class RobotContainer {
   std::fstream autofile;
   std::fstream configfile {"/home/lvuser/wcrj/config.txt"};
   std::string autofilename {"/home/lvuser/wcrj/autonomous.txt"};
+  
+  Recording m_recording {"/home/lvuser/wcrj/replay.txt"};
 };

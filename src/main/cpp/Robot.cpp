@@ -43,7 +43,7 @@ void Robot::RobotPeriodic() {
 void Robot::DisabledInit() {
   m_container.command_no = 0;
 
-  m_container.CloseDriveBaseFile();
+  m_container.CloseRecordingFile();
 }
 
 void Robot::DisabledPeriodic() {}
@@ -85,7 +85,7 @@ void Robot::TeleopInit() {
   //}
 
   m_container.SetConfig();
-  m_container.OpenDriveBaseFile();
+  m_container.OpenRecordingFile();
 }
 
 /**
