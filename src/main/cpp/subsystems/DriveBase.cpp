@@ -9,7 +9,7 @@
 #include "RobotMap.h"
 //#include <frc/RobotDrive.h>
 
-DriveBase::DriveBase() {
+DriveBase::DriveBase(Recording* recording) : m_recording{recording} {
 	//wpi::outs() << "DriveBase constructed\n";
 }
 
@@ -99,7 +99,11 @@ void DriveBase::ArcadeDrive(double xAxis, double yAxis) {
 
 	if (robotConfig["record"]>0)
 	{
-		recordfile << "replay " << xAxis << " " << yAxis << " 1\n";
+		Recording->WriteToFile("drive ");
+		Recording->WriteToFile(std::to_string((double) xAxis));
+		Recording->WriteToFile(" ");
+		Recording->WriteToFile(std::to_string((double) yAxis));
+		Recording->WriteToFile(" 1\n");
 	}
 	
   	double parsedLeft;
@@ -213,16 +217,4 @@ double DriveBase::getSpeed() {
 
 void DriveBase::setSpeed(double newSpeed) {
 	speed = std::clamp(newSpeed, 0.0, 1.0);
-}
-
-void DriveBase::openFile() {
-	if (!recordfile.is_open()) recordfile.open("/home/lvuser/wcrj/replay.txt");
-}
-
-void DriveBase::closeFile() {
-	if (recordfile.is_open()) recordfile.close();
-}
-
-void DriveBase::writeToFile(std::string msg) {
-	recordfile << msg;
 }

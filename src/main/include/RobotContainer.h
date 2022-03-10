@@ -24,6 +24,7 @@
 #include "commands/Center.h"
 #include "commands/Collect.h"
 #include "commands/Shoot.h"
+#include "Recording.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"
 #include <frc2/command/RunCommand.h>
@@ -44,8 +45,6 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
   void ReadFile();
   void SetConfig();
-  void OpenDriveBaseFile();
-  void CloseDriveBaseFile();
   
   // Driver Left Trigger: Adjust speed -0.1
   frc2::Button m_driverLT{[&] {return 0.5 < m_driverStick.GetLeftTriggerAxis();}};
@@ -160,7 +159,9 @@ class RobotContainer {
   frc::XboxController m_driverStick{0};
   frc::XboxController m_manStick{1};
   
-  DriveBase m_driveBase;
+  Recording m_recording {"/home/lvuser/wcrj/replay.txt"};
+  
+  DriveBase m_driveBase {&m_recording};
   Shooter m_shooter;
   Climber m_climber;
   Collector m_collector;

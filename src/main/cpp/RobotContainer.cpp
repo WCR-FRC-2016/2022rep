@@ -39,6 +39,7 @@ std::map<std::string, double> robotConfig = {
 	{"rumbleManipStrength", 0},
 	{"rumbleDriverStrength", 0}
 };
+// When we make the how-to for config options, don't forget autoFileName, which expects a string and thus isn't in this map.
 
 RobotContainer::RobotContainer() {
    SetConfig();
@@ -50,7 +51,7 @@ RobotContainer::RobotContainer() {
 
    if (robotConfig["useLIDAR"]>0) {
        // TODO: Make this not make the robot not drive.
-       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
+       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase, &m_recording));
    }
    
    if (robotConfig["useRumbleManip"]>0) m_ManipRumble.Schedule();
@@ -93,16 +94,6 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manY.WhileHeld(Collect(&m_collector, &m_elevator, false));
     //m_manDPadRight.WhileHeld(Center(&m_driveBase, &m_shooter));
     m_manStart.WhenPressed(m_PipelineSwap);
-}
-
-void RobotContainer::OpenDriveBaseFile() {
-   m_driveBase.openFile();
-   
-   posID = 0;
-}
-
-void RobotContainer::CloseDriveBaseFile() {
-   m_driveBase.closeFile();
 }
 
 void RobotContainer::ReadFile() {

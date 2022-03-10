@@ -14,6 +14,8 @@
 #include <string>
 //#include <AHRS.h>
 
+#include "Recording.h"
+
 class DriveBase : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
@@ -28,8 +30,8 @@ class DriveBase : public frc2::SubsystemBase {
   WPI_TalonSRX * BackR;
   //AHRS * ahrs;
   frc::DifferentialDrive * _diffDrive;
-
-  std::fstream recordfile {"/home/lvuser/wcrj/replay.txt", std::ios_base::out | std::ios_base::trunc};
+  
+  Recording* m_recording;
 
  public:
   DriveBase();
