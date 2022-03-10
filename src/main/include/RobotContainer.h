@@ -119,6 +119,7 @@ class RobotContainer {
   void ConfigureButtonBindings();
 
   std::vector<std::string> commands;
-  std::fstream file {"/home/lvuser/wcrj/autonomous.txt"};
+  std::fstream autofile;
   std::fstream configfile {"/home/lvuser/wcrj/config.txt"};
+  std::string autofilename {"/home/lvuser/wcrj/autonomous.txt"};
 };

@@ -74,12 +74,12 @@ void RobotContainer::CloseDriveBaseFile() {
 
 void RobotContainer::ReadFile() {
    // Reset file to start.
-   file.close();
-   file.open("/home/lvuser/wcrj/autonomous.txt");
+   autofile.close();
+   autofile.open(autofilename);
 
    // Read the file.
    std::string line;
-   while (getline(file, line))
+   while (getline(autofile, line))
    {
       commands.push_back(line);
    }
@@ -100,11 +100,15 @@ void RobotContainer::SetConfig() {
       double value;
       std::istringstream words (line);
       words >> name;
-      words >> value;
-      //wpi::outs() << name << " " << value << "\n";
-
-      // Write to variable
-      robotConfig[name] = value;
+      if (name == "autoFileName") {
+         words >> autofilename;
+      } else {
+         words >> value;
+         //wpi::outs() << name << " " << value << "\n";
+         
+         // Write to variable
+         robotConfig[name] = value;
+      }
    }
 }
 
