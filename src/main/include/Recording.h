@@ -12,7 +12,7 @@
 
 class Recording {
  private:
-  std::fstream * recordfile;
+  std::fstream recordfile;
 
  public:
   Recording(std::string filename);
