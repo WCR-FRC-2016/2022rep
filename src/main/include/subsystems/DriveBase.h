@@ -35,13 +35,11 @@ class DriveBase : public frc2::SubsystemBase {
  public:
   DriveBase();
   void DriveBaseInit();
+  void SetRecording(Recording* recording);
   void Periodic();
   void ArcadeDrive(double xAxis, double yAxis);
   void RampSwitch(bool rampOn);
   void reverseDrive();
   double getSpeed();
   void setSpeed(double newSpeed);
-  void openFile();
-  void closeFile();
-  void writeToFile(std::string msg);
 };

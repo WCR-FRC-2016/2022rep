@@ -9,7 +9,7 @@
 #include "RobotMap.h"
 //#include <frc/RobotDrive.h>
 
-DriveBase::DriveBase(Recording* recording) : m_recording{recording} {
+DriveBase::DriveBase() {
 	//wpi::outs() << "DriveBase constructed\n";
 }
 
@@ -102,6 +102,11 @@ void DriveBase::DriveBaseInit() {
 
 		
 }
+
+void SetRecording(Recording* recording) {
+	m_recording = recording;
+}
+
 void DriveBase::ArcadeDrive(double xAxis, double yAxis) {
 	//wpi::outs() << std::to_string( ahrs -> GetAngle()) << "\n";
 

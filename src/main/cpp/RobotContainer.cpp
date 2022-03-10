@@ -32,10 +32,11 @@ RobotContainer::RobotContainer() {
     [this] { return m_driverStick.GetRightX()/2;} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
+   
+   m_driveBase.SetRecording(&m_recording);
 
    if (robotConfig["useLIDAR"]>0) {
-       // TODO: Make this not make the robot not drive.
-       m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase, &m_recording));
+       LIDARTest(&m_recording).Schedule();
    }
 
    m_shooter.SetDefaultCommand(m_NoShoot);

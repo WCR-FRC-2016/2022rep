@@ -111,7 +111,7 @@ class RobotContainer {
   
   Recording m_recording {"/home/lvuser/wcrj/replay.txt"};
   
-  DriveBase m_driveBase {&m_recording};
+  DriveBase m_driveBase;
   Shooter m_shooter;
   Climber m_climber;
   Collector m_collector;
