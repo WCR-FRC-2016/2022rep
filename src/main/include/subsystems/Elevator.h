@@ -8,6 +8,7 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <frc/DigitalInput.h>
 
 class Elevator : public frc2::SubsystemBase {
  private:
@@ -16,6 +17,7 @@ class Elevator : public frc2::SubsystemBase {
   bool initialized = false;
 
   WPI_TalonSRX * Motor;
+  frc::DigitalInput ProximitySensor{0};
 
  public:
   Elevator();
