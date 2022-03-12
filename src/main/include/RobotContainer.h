@@ -24,6 +24,7 @@
 #include "commands/Center.h"
 #include "commands/Collect.h"
 #include "commands/Shoot.h"
+#include "commands/AutoCommand.h"
 #include "Recording.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"

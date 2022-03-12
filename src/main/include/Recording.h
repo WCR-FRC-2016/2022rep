@@ -10,9 +10,19 @@
 #include <fstream>
 #include <string>
 
+// data indices:
+//  0 - Drivebase turn
+//  1 - Drivebase forward
+//  2 - Shooter speed front
+//  3 - Shooter speed back
+//  8 - LIDAR distance raw
+//  9 - LIDAR distance parsed
+
 class Recording {
  private:
   std::fstream recordfile;
+  
+  double[10] data;
 
  public:
   Recording(std::string filename);
@@ -20,5 +30,6 @@ class Recording {
   void OpenFile(std::string filename);
   void OpenFile();
   void CloseFile();
-  void WriteToFile(std::string msg);
+  void WriteData(int index, double dat);
+  void WriteLine();
 };

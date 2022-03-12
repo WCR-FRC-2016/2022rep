@@ -10,6 +10,7 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/DriveBase.h"
+#include "subsystems/Shooter.h"
 
 /**
  * An example command.
@@ -18,11 +19,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ArcadeDrive
-    : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
+class AutoCommand
+    : public frc2::CommandHelper<frc2::CommandBase, AutoCommand> {
  public:
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward);
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward, double time);
+  AutoCommand(DriveBase* drivebase, Shooter* shooter, rotation, forward, front, back);
 
   void Initialize() override;
 
@@ -33,8 +33,9 @@ class ArcadeDrive
   bool IsFinished() override;
 private:
   DriveBase* m_drivebase;
-  std::function<double()> m_rotation;
-  std::function<double()> m_forward;
-  double m_time;
-  double m_elapsed;
+  Shooter* m_shooter;
+  double m_rotation;
+  double m_forward;
+  double m_front;
+  double m_back;
 };

@@ -48,7 +48,6 @@ RobotContainer::RobotContainer() {
     [this] { return m_driverStick.GetRightX()*robotConfig["driveMaxSpeed"];} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
-   
    m_driveBase.SetRecording(&m_recording);
 
    if (robotConfig["useLIDAR"]>0) {
@@ -145,6 +144,10 @@ void RobotContainer::CloseRecordingFile() {
    m_recording.CloseFile();
 }
 
+void RobotContainer::Record() {
+	m_recording.WriteLine();
+}
+
 frc2::Command* RobotContainer::GetAutonomousCommand() {
   // Read the file
 
@@ -160,13 +163,15 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
    while (words >> num) {
       args.push_back(num);
    }
-
+   
    if (args.size()==3) {
       return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, args[2]);
    } else if (args.size()==2) {
       return new ScheduleCommand(Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
       return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.8:0.1, 0.5, 2500);
+   } else {
+      return new AutoCommand(&m_driveBase, &m_shooter, args[0], args[1], args[2], args[3]);
    }
    //return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
 }
