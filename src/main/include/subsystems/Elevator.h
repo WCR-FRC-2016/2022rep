@@ -16,11 +16,14 @@ class Elevator : public frc2::SubsystemBase {
   bool initialized = false;
 
   WPI_TalonSRX * Motor;
+  
+  Recording* m_recording;
 
  public:
   Elevator();
   void ElevatorInit();
   void Periodic();
+  void SetRecording(Recording* recording);
   void SetMotorPO(double PO);
   bool GetSwitch();
 };

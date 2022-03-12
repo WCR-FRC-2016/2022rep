@@ -21,8 +21,8 @@ void LIDARTest::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LIDARTest::Execute() {
-    m_recording->WriteData(8, counter.GetPeriod());
-    m_recording->WriteData(9, counter.GetPeriod()*robotConfig["LIDARm"] + robotConfig["LIDARb"]);
+    m_recording->WriteData(9, counter.GetPeriod());
+    m_recording->WriteData(10, counter.GetPeriod()*robotConfig["LIDARm"] + robotConfig["LIDARb"]);
 }
 
 // Called once the command ends or is interrupted.

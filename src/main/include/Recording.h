@@ -15,14 +15,19 @@
 //  1 - Drivebase forward
 //  2 - Shooter speed front
 //  3 - Shooter speed back
-//  8 - LIDAR distance raw
-//  9 - LIDAR distance parsed
+//  4 - Collector in/out
+//  5 - Collector lift
+//  6 - Elevator in/out
+
+
+//  9 - LIDAR distance raw
+// 10 - LIDAR distance parsed
 
 class Recording {
  private:
   std::fstream recordfile;
   
-  double[10] data;
+  double[11] data;
 
  public:
   Recording(std::string filename);

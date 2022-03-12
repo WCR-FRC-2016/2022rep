@@ -19,11 +19,14 @@ class Collector : public frc2::SubsystemBase {
 
   WPI_TalonSRX * Motor;
   WPI_TalonSRX * LiftMotor;
+  
+  Recording* m_recording;
 
  public:
   Collector();
   void CollectorInit();
   void Periodic();
+  void SetRecording(Recording* recording);
   void SetMotorPO(double PO);
   void SetLiftMotorPOHold(double PO);
 };

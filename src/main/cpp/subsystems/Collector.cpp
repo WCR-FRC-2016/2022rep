@@ -81,11 +81,25 @@ void Collector::Periodic() {
     LiftMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, LiftMotorPO);
 }
 
+void Elevator::SetRecording(Recording* recording) {
+	m_recording = recording;
+}
+
 void Collector::SetLiftMotorPOHold(double PO) {
+	if (robotConfig["record"]>0)
+	{
+		m_recording->WriteData(5, PO);
+	}
+	
 	LiftMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
     LiftMotorPO = PO;
 }
 
 void Collector::SetMotorPO(double PO) {
+	if (robotConfig["record"]>0)
+	{
+		m_recording->WriteData(4, PO);
+	}
+	
 	Motor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
 }

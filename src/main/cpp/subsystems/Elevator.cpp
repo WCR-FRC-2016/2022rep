@@ -65,7 +65,16 @@ void Elevator::Periodic() {
 	}
 }
 
+void Elevator::SetRecording(Recording* recording) {
+	m_recording = recording;
+}
+
 void Elevator::SetMotorPO(double PO) {
+	if (robotConfig["record"]>0)
+	{
+		m_recording->WriteData(6, PO);
+	}
+	
 	Motor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
 }
 

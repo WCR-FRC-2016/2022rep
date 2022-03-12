@@ -22,7 +22,7 @@
 class AutoCommand
     : public frc2::CommandHelper<frc2::CommandBase, AutoCommand> {
  public:
-  AutoCommand(DriveBase* drivebase, Shooter* shooter, rotation, forward, front, back);
+  AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, rotation, forward, front, back, cmotor, cliftmotor, emotor);
 
   void Initialize() override;
 
@@ -34,8 +34,13 @@ class AutoCommand
 private:
   DriveBase* m_drivebase;
   Shooter* m_shooter;
+  Collector* m_collector;
+  Elevator* m_elevator;
   double m_rotation;
   double m_forward;
   double m_front;
   double m_back;
+  double m_cmotor;
+  double m_cliftmotor;
+  double m_emotor;
 };
