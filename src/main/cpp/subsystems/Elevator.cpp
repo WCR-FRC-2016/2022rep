@@ -61,6 +61,10 @@ void Elevator::SetMotorPO(double PO) {
 	Motor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
 }
 
-bool Elevator::GetSwitch() {
-    return ProximitySensor.Get();
+bool Elevator::GetSwitch1() {
+    return ProximitySensor1.Get();
+}
+
+bool Elevator::GetSwitch2() {
+    return ProximitySensor2.Get();
 }

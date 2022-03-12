@@ -22,7 +22,7 @@ void Collect::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void Collect::Execute() {
   m_collector->SetMotorPO(1);
-  m_elevator->SetMotorPO(m_elevator->GetSwitch()?0:1);
+  m_elevator->SetMotorPO(m_elevator->GetSwitch1()?0:1);
 }
 
 // Called once the command ends or is interrupted.

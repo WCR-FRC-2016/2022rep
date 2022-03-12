@@ -95,7 +95,7 @@ class RobotContainer {
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
   frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0); m_collector.SetLiftMotorPOHold(-1);}, {&m_collector} };
-  frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0); wpi::outs() << "switch: " << (m_elevator.GetSwitch()?"true":"false") << "\n";}, {&m_elevator} };
+  frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0); wpi::outs() << "switch: " << (m_elevator.GetSwitch1()?"true":"false") << " " << (m_elevator.GetSwitch2()?"true":"false") << "\n";}, {&m_elevator} };
   frc2::RunCommand m_ClimbControls{[this] {
     double m_turn   = m_manStick.GetRightX();
     double m_extend = m_manStick.GetLeftY();
