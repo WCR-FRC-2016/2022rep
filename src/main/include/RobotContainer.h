@@ -47,6 +47,7 @@ class RobotContainer {
   void SetConfig();
   void OpenRecordingFile();
   void CloseRecordingFile();
+  void Record();
   
   // Driver Left Trigger: Adjust speed -0.1
   frc2::Button m_driverLT{[&] {return 0.5 < m_driverStick.GetLeftTriggerAxis();}};

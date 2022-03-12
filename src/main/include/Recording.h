@@ -9,6 +9,7 @@
 
 #include <fstream>
 #include <string>
+#include <array>
 
 // data indices:
 //  0 - Drivebase turn
@@ -27,7 +28,7 @@ class Recording {
  private:
   std::fstream recordfile;
   
-  double[11] data;
+  std::array<double,11> data;
 
  public:
   Recording(std::string filename);

@@ -8,7 +8,7 @@
 #include "commands/AutoCommand.h"
 #include "RobotMap.h"
 
-AutoCommand::AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, rotation, forward, front, back, cmotor, cliftmotor, emotor) : m_drivebase{drivebase}, m_shooter{shooter}, m_collector{collector}, m_elevator{elevator}, m_rotation{rotation}, m_forward{forward}, m_front{front}, m_back{back}, m_cmotor{cmotor}, m_cliftmotor{cliftmotor}, m_emotor{emotor}  {
+AutoCommand::AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, double rotation, double forward, double front, double back, double cmotor, double cliftmotor, double emotor) : m_drivebase{drivebase}, m_shooter{shooter}, m_collector{collector}, m_elevator{elevator}, m_rotation{rotation}, m_forward{forward}, m_front{front}, m_back{back}, m_cmotor{cmotor}, m_cliftmotor{cliftmotor}, m_emotor{emotor}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase, shooter});
 }
@@ -21,7 +21,7 @@ void AutoCommand::Execute() {
   m_drivebase->ArcadeDrive(m_rotation, m_forward);
   m_shooter->SetMotorsPO(m_front, m_back);
   m_collector->SetMotorPO(m_cmotor);
-  m_collector->SetLiftMotorPO(m_cliftmotor);
+  m_collector->SetLiftMotorPOHold(m_cliftmotor);
   m_elevator->SetMotorPO(m_emotor);
 }
 

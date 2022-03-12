@@ -9,6 +9,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
 
+#include "Recording.h"
+
 class Elevator : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
