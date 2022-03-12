@@ -49,14 +49,6 @@ void Elevator::ElevatorInit() {
 /*
     Motor->SetSelectedSensorPosition(0,0,0);
     */
-
-	
-	// Also figure out why it crashes the code on 2018 robot but not 2019.
-    //_diffDrive->SetSafetyEnabled(false);
-
-    //BackL->SetSafetyEnabled(false);
-    //BackR->SetSafetyEnabled(false);
-    //_diffDrive->SetExpiration(.5); TODO: Figure out what this does. Also figure out why it crashes the code on 2018 robot but not 2019.
 }
 
 void Elevator::Periodic() {
