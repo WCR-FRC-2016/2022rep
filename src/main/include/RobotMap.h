@@ -24,14 +24,14 @@ const int frontRightDrive = 14; //encoder
 const int backLeftDrive = 0;
 const int backRightDrive = 15;
 
-const int shooterFrontDrive = 12;
-const int shooterBackDrive = 13;
+const int shooterFrontDrive = 13;
+const int shooterBackDrive = 12;
 
 const int climberTurnDrive = 2;
 const int climberExtendDrive = 3;
 
-const int collectorMotorDrive = 4;
-const int collectorLiftMotorDrive = 5;
+const int collectorMotorDrive = 10;
+const int collectorLiftMotorDrive = 9;
 
 const int elevatorMotorDrive = 11;
 
