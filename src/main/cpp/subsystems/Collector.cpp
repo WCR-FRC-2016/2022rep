@@ -75,7 +75,7 @@ void Collector::Periodic() {
     SetLiftMotorPO(LiftMotorPO);
 }
 
-void Elevator::SetRecording(Recording* recording) {
+void Collector::SetRecording(Recording* recording) {
 	m_recording = recording;
 }
 
