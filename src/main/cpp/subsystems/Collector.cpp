@@ -81,7 +81,7 @@ void Collector::Periodic() {
     LiftMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, LiftMotorPO);
 }
 
-void Elevator::SetRecording(Recording* recording) {
+void Collector::SetRecording(Recording* recording) {
 	m_recording = recording;
 }
 
