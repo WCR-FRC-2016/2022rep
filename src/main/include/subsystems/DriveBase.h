@@ -36,8 +36,8 @@ class DriveBase : public frc2::SubsystemBase {
  public:
   DriveBase();
   void DriveBaseInit();
-  void SetRecording(Recording* recording);
   void Periodic();
+  void SetRecording(Recording* recording);
   void ArcadeDrive(double xAxis, double yAxis);
   void RampSwitch(bool rampOn);
   void reverseDrive();

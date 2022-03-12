@@ -19,11 +19,14 @@ class Elevator : public frc2::SubsystemBase {
   WPI_TalonSRX * Motor;
   frc::DigitalInput ProximitySensor1{0};
   frc::DigitalInput ProximitySensor2{1};
+  
+  Recording* m_recording;
 
  public:
   Elevator();
   void ElevatorInit();
   void Periodic();
+  void SetRecording(Recording* recording);
   void SetMotorPO(double PO);
   bool GetSwitch1();
   bool GetSwitch2();

@@ -24,11 +24,14 @@ class Collector : public frc2::SubsystemBase {
   frc::DigitalInput HallEffectSensor2{3};
 
   void SetLiftMotorPO(double PO);
+  
+  Recording* m_recording;
 
  public:
   Collector();
   void CollectorInit();
   void Periodic();
+  void SetRecording(Recording* recording);
   void SetMotorPO(double PO);
   void SetLiftMotorPOHold(double PO);
   void SwapLiftMotorPOHold();

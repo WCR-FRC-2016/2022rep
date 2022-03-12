@@ -171,7 +171,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
    } else if (args.size()==1) {
       return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.8:0.1, 0.5, 2500);
    } else {
-      return new AutoCommand(&m_driveBase, &m_shooter, args[0], args[1], args[2], args[3]);
+      return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
    }
    //return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
 }
