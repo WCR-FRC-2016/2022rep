@@ -91,6 +91,8 @@ void Climber::SetExtendPosition(double position) {
 }
 
 void Climber::SetMotorsPO(double turnPO, double extendPO) {
-	Turn->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, turnPO);
+    double passTurnPO = turnPO;
+    if (passTurnPO>0 && !HallEffectSensor.Get()) passTurnPO=0;
+	Turn->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, passTurnPO);
 	Extend->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, extendPO);
 }

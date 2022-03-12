@@ -8,6 +8,7 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <frc/DigitalInput.h>
 
 class Climber : public frc2::SubsystemBase {
  private:
@@ -17,6 +18,8 @@ class Climber : public frc2::SubsystemBase {
 
   WPI_TalonSRX * Turn;
   WPI_TalonSRX * Extend;
+  
+  frc::DigitalInput HallEffectSensor{4};
 
  public:
   Climber();
