@@ -85,9 +85,19 @@ void Shooter::ShooterInit() {
 	*/
 }
 
-void Shooter::SetMotorsPO (double left, double right) {
-	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
-	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
+void Shooter::SetRecording(Recording* recording) {
+	m_recording = recording;
+}
+
+void Shooter::SetMotorsPO (double front, double back) {
+	if (robotConfig["record"]>0)
+	{
+		m_recording->WriteData(2, front);
+		m_recording->WriteData(3, back);
+	}
+	
+	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, front);
+	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, back);
 }
 
 double Shooter::GetMotorSpeed (bool back) {

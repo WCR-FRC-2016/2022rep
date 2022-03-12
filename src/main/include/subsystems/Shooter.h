@@ -12,6 +12,8 @@
 #include "networktables/NetworkTableInstance.h"
 #include "frc/DriverStation.h"
 
+#include "Recording.h"
+
 class Shooter : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
@@ -23,12 +25,14 @@ class Shooter : public frc2::SubsystemBase {
   bool initialized = false;
 
   std::shared_ptr<nt::NetworkTable> table;
+  
+  Recording* m_recording;
 
  public:
   Shooter();
   void ShooterInit();
   void Periodic();
-  void SetMotorsPO(double left, double right);
+  void SetMotorsPO(double front, double back);
   double GetMotorSpeed(bool back);
   void ChoosePipeline();
   double GetLimelightX();

@@ -5,28 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/LIDARTest.h"
+#include "commands/AutoCommand.h"
+#include "RobotMap.h"
 
-LIDARTest::LIDARTest(Recording* recording) : m_recording{recording} {
-  // Set up the input channel for the counter
-  counter.SetUpSource(0);
-  
-  // Set the encoder to count pulse duration from rising edge to falling edge
-  counter.SetSemiPeriodMode(true);
+AutoCommand::AutoCommand(DriveBase* drivebase, Shooter* shooter, rotation, forward, front, back) : m_drivebase{drivebase}, m_shooter{shooter}, m_rotation{rotation}, m_forward{forward}, m_front{front}, m_back{back}  {
+  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements({drivebase, shooter});
 }
 
 // Called when the command is initially scheduled.
-void LIDARTest::Initialize() {
-}
+void AutoCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void LIDARTest::Execute() {
-    m_recording->WriteData(8, counter.GetPeriod());
-    m_recording->WriteData(9, counter.GetPeriod()*robotConfig["LIDARm"] + robotConfig["LIDARb"]);
+void AutoCommand::Execute() {
+  m_drivebase->ArcadeDrive(m_rotation, m_forward);
+  m_shooter->SetMotorsPO(m_front, m_back);
 }
 
 // Called once the command ends or is interrupted.
-void LIDARTest::End(bool interrupted) {}
+void AutoCommand::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool LIDARTest::IsFinished() { return false; }
+bool AutoCommand::IsFinished() { return true; }

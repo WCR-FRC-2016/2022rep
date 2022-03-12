@@ -29,6 +29,16 @@ void Recording::CloseFile() {
 	if (recordfile.is_open()) recordfile.close();
 }
 
-void Recording::WriteToFile(std::string msg) {
-	recordfile << msg;
+void Recording::WriteData(int index, double dat) {
+	data[index] = dat;
+}
+
+void Recording::WriteLine() {
+	if (!recordfile.is_open()) return;
+	
+	recordfile << "replay";
+	for (int i=1; i<data.size(); i++) {
+		recordfile << " " << (std::to_string(data[i]));
+	}
+	recordfile << "\n";
 }

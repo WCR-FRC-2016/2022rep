@@ -112,11 +112,8 @@ void DriveBase::ArcadeDrive(double xAxis, double yAxis) {
 
 	if (robotConfig["record"]>0)
 	{
-		m_recording->WriteToFile("drive ");
-		m_recording->WriteToFile(std::to_string((double) xAxis));
-		m_recording->WriteToFile(" ");
-		m_recording->WriteToFile(std::to_string((double) yAxis));
-		m_recording->WriteToFile("\n");
+		m_recording->WriteData(0, xAxis);
+		m_recording->WriteData(1, yAxis);
 	}
 	
   	double parsedLeft;
