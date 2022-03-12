@@ -10,6 +10,8 @@
 #include <ctre/Phoenix.h>
 #include <frc/DigitalInput.h>
 
+#include "Recording.h"
+
 class Elevator : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except

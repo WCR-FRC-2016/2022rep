@@ -11,6 +11,8 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
+#include "subsystems/Collector.h"
+#include "subsystems/Elevator.h"
 
 /**
  * An example command.
@@ -22,7 +24,7 @@
 class AutoCommand
     : public frc2::CommandHelper<frc2::CommandBase, AutoCommand> {
  public:
-  AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, rotation, forward, front, back, cmotor, cliftmotor, emotor);
+  AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, double rotation, double forward, double front, double back, double cmotor, double cliftmotor, double emotor);
 
   void Initialize() override;
 
