@@ -8,6 +8,7 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
+#include <frc/DigitalInput.h>
 
 class Collector : public frc2::SubsystemBase {
  private:
@@ -19,6 +20,8 @@ class Collector : public frc2::SubsystemBase {
 
   WPI_TalonSRX * Motor;
   WPI_TalonSRX * LiftMotor;
+  frc::DigitalInput HallEffectSensor1{2};
+  frc::DigitalInput HallEffectSensor2{3};
 
  public:
   Collector();

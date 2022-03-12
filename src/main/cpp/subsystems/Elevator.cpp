@@ -62,7 +62,5 @@ void Elevator::SetMotorPO(double PO) {
 }
 
 bool Elevator::GetSwitch() {
-    
-    // TODO: Add Switch
     return ProximitySensor.Get();
 }
