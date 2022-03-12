@@ -77,7 +77,11 @@ void Collector::Periodic() {
 }
 
 void Collector::SetLiftMotorPOHold(double PO) {
-	LiftMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
+	double passPO = PO;
+	if (passPO<0 && HallEffectSensor1.Get()) passPO = 0;
+	if (passPO>0 && HallEffectSensor2.Get()) passPO = 0;
+	
+	LiftMotor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, passPO);
     LiftMotorPO = PO;
 }
 
