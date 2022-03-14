@@ -67,6 +67,26 @@ class RobotContainer {
   frc2::Button m_manET{[&] {return (0.2 < m_manStick.GetRightTriggerAxis()) || (0.2 < m_manStick.GetLeftTriggerAxis());}};
   frc2::InstantCommand m_ManualShoot{[this] {m_shooter.SetMotorsPO(-pow(m_manStick.GetRightTriggerAxis(), 2), -pow(m_manStick.GetLeftTriggerAxis(), 2));}, {&m_shooter} };
   */
+  
+  // Manip DPad Up: Adjust shooting front +
+  frc2::Button m_manDPadU{[&] {return m_manStick.GetPOV()==0;}};
+  frc2::InstantCommand m_AdjustSpeedFrontUp{[this] {robotConfig["shootingSpeedFront"]+=robotConfig["shootingSpeedShift"];} , {} };
+  
+  // Manip DPad Right: Adjust shooting back +
+  frc2::Button m_manDPadR{[&] {return m_manStick.GetPOV()==90;}};
+  frc2::InstantCommand m_AdjustSpeedBackUp{[this] {robotConfig["shootingSpeedBack"]+=robotConfig["shootingSpeedShift"];} , {&m_shooter} };
+  
+  // Manip DPad Down: Adjust shooting front -
+  frc2::Button m_manDPadD{[&] {return m_manStick.GetPOV()==180;}};
+  frc2::InstantCommand m_AdjustSpeedFrontDown{[this] {robotConfig["shootingSpeedFront"]-=robotConfig["shootingSpeedShift"];} , {&m_shooter} };
+  
+  // Manip DPad Left: Adjust shooting back -
+  frc2::Button m_manDPadL{[&] {return m_manStick.GetPOV()==270;}};
+  frc2::InstantCommand m_AdjustSpeedBackDown{[this] {robotConfig["shootingSpeedBack"]-=robotConfig["shootingSpeedShift"];} , {&m_shooter} };
+  
+  // Manip Right Bumper: Log Shooting Position
+  frc2::Button m_manRB{[&] {return m_manStick.GetRightBumper();}};
+  frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile("Position Logged! Front: " + (std::to_string(robotConfig["shootingSpeedFront"])) + ", Back: " + (std::to_string(robotConfig["shootingSpeedBack"])) + " @" + (std::to_string(posID)); posID++; } , {&m_driveBase} };
 
   // Manip Right Trigger: Shoot
   frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
@@ -122,4 +142,6 @@ class RobotContainer {
   std::fstream autofile;
   std::fstream configfile {"/home/lvuser/wcrj/config.txt"};
   std::string autofilename {"/home/lvuser/wcrj/autonomous.txt"};
+  
+  int posID;
 };
