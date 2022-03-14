@@ -71,8 +71,8 @@ class RobotContainer {
   // Manip Right Trigger: Shoot
   frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
   frc2::InstantCommand m_Shoot{[this] {
-    m_shooter.SetMotorsPO(-1,1);
-    if (m_shooter.GetMotorSpeed(true)>robotConfig["shootingSpeedFront"] && m_shooter.GetMotorSpeed(false)>robotConfig["shootingSpeedBack"]) {
+    m_shooter.SetMotorsPO(-1,-1);
+    if (m_shooter.GetMotorSpeed(false)>robotConfig["shootingSpeedFront"] && m_shooter.GetMotorSpeed(true)>robotConfig["shootingSpeedBack"]) {
       m_elevator.SetMotorPO(0.5);
     } else {
       m_elevator.SetMotorPO(0);

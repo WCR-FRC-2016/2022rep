@@ -20,8 +20,8 @@ std::map<std::string, double> robotConfig = {
     {"useCamera", 0},
     {"useLIDAR", 0},
     {"useLimelight", 0},
-    {"shootingSpeedFront", 20000},
-    {"shootingSpeedBack", 20000}
+    {"shootingSpeedFront", 10000},
+    {"shootingSpeedBack", 10000}
 };
 
 RobotContainer::RobotContainer() {

@@ -91,7 +91,9 @@ void Shooter::SetMotorsPO (double left, double right) {
 }
 
 double Shooter::GetMotorSpeed (bool back) {
-    return -(back?Back:Front)->GetSensorCollection().GetQuadratureVelocity();
+    double speed = -(back?Back:Front)->GetSensorCollection().GetQuadratureVelocity();
+    wpi::outs() << "Motor Speed " << (back?"Back ":"Front ") << std::to_string((double) speed) << "\n";
+    return speed;
 }
 
 void Shooter::ChoosePipeline() {
