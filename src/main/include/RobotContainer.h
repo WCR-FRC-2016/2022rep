@@ -102,12 +102,18 @@ class RobotContainer {
   // Manip X: Center
   frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
  
+ /*
   // Manip Y: Swap Vision Target
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
   frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
+  */
+
+  // Manip Y: Swap Collector Up/Down
+  frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
+  frc2::InstantCommand m_CollectorSwap{[this] {m_collector.SwapLiftMotorPOHold();} , {&m_shooter} };
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
-  frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0); m_collector.SetLiftMotorPOHold(-1);}, {&m_collector} };
+  frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0);}, {&m_collector} };
   frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0); wpi::outs() << "switch: " << (m_elevator.GetSwitch1()?"true":"false") << " " << (m_elevator.GetSwitch2()?"true":"false") << "\n";}, {&m_elevator} };
   frc2::RunCommand m_ClimbControls{[this] {
     double m_turn   = m_manStick.GetRightX();

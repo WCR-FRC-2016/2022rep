@@ -23,7 +23,8 @@ std::map<std::string, double> robotConfig = {
     {"shootingSpeedFront", 10000},
     {"shootingSpeedBack", 10000},
 	{"shootingSpeedShift", 500},
-	{"shootingSpeedError", 100}
+	{"shootingSpeedError", 100},
+    {"collectLiftSpeed", 0.01}
 };
 
 RobotContainer::RobotContainer() {
@@ -65,11 +66,12 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_manRB.WhenPressed(m_LogPos);
 
     //m_manET.WhileHeld(m_ManualShoot);
-    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedFront"], robotConfig["shootingSpeedBack"]));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedFront"], robotConfig["shootingSpeedBack"]));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
-    m_manY.WhenPressed(m_PipelineSwap);
+    //m_manY.WhenPressed(m_PipelineSwap);
+    m_manY.WhenPressed(m_CollectorSwap);
 }
 
 void RobotContainer::OpenDriveBaseFile() {

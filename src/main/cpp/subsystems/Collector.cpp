@@ -78,6 +78,12 @@ void Collector::SetLiftMotorPOHold(double PO) {
     LiftMotorPO = PO;
 }
 
+void Collector::SwapLiftMotorPOHold() {
+    double PO = ((LiftMotorPO==robotConfig["collectLiftSpeed"])?-1:1) * robotConfig["collectLiftSpeed"];
+    SetLiftMotorPO(PO);
+    LiftMotorPO = PO;
+}
+
 void Collector::SetMotorPO(double PO) {
 	Motor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
 }
