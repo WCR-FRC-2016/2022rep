@@ -27,8 +27,8 @@ void ArcadeDrive::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDrive::Execute() {
   //wpi::outs() << "ArcadeDrive starts\n";
-  double passRotation = (abs(m_rotation()*1000) > 200?m_rotation():0.0);
-  double passForward = (abs( m_forward()*1000) > 200?m_forward():0.0);
+  double passRotation = (abs(m_rotation()*1000) > 100?m_rotation():0.0);
+  double passForward = (abs( m_forward()*1000) > 100?m_forward():0.0);
   //wpi::outs() << "ArcadeDrive functions\n";
   m_drivebase->ArcadeDrive(passRotation, passForward);
   //wpi::outs() << "ArcadeDrive ends\n";
