@@ -87,7 +87,7 @@ class RobotContainer {
   
   // Manip Right Bumper: Log Shooting Position
   frc2::Button m_manRB{[&] {return m_manStick.GetRightBumper();}};
-  frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile("Position Logged! Front: " + (std::to_string(robotConfig["shootingSpeedFront"])) + ", Back: " + (std::to_string(robotConfig["shootingSpeedBack"])) + " @" + (std::to_string(posID)); posID++; } , {&m_driveBase} };
+  frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile("Position Logged! Front: " + (std::to_string(robotConfig["shootingSpeedFront"])) + ", Back: " + (std::to_string(robotConfig["shootingSpeedBack"])) + " @" + (std::to_string(posID))); posID++; } , {&m_driveBase} };
 
   // Manip Right Trigger: Shoot
   frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
