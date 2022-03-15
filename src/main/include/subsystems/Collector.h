@@ -31,4 +31,5 @@ class Collector : public frc2::SubsystemBase {
   void Periodic();
   void SetMotorPO(double PO);
   void SetLiftMotorPOHold(double PO);
+  void SwapLiftMotorPOHold();
 };

@@ -21,7 +21,8 @@ std::map<std::string, double> robotConfig = {
     {"useLIDAR", 0},
     {"useLimelight", 0},
     {"shootingSpeedFront", 10000},
-    {"shootingSpeedBack", 10000}
+    {"shootingSpeedBack", 10000},
+    {"collectLiftSpeed", 0.01}
 };
 
 RobotContainer::RobotContainer() {
@@ -61,7 +62,8 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
-    m_manY.WhenPressed(m_PipelineSwap);
+    //m_manY.WhenPressed(m_PipelineSwap);
+    m_manY.WhenPressed(m_CollectorSwap);
 }
 
 void RobotContainer::OpenDriveBaseFile() {

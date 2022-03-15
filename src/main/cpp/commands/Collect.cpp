@@ -16,7 +16,7 @@ Collect::Collect(Collector* collector, Elevator* elevator) : m_collector{collect
 // Called when the command is initially scheduled.
 void Collect::Initialize() {
   // Lower Arm
-  m_collector->SetLiftMotorPOHold(1);
+  //m_collector->SetLiftMotorPOHold(robotConfig["collectLiftSpeed"]);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -28,8 +28,8 @@ void Collect::Execute() {
 // Called once the command ends or is interrupted.
 void Collect::End(bool interrupted) {
   // Raise Arm
-  m_collector->SetLiftMotorPOHold(-1);
+  //m_collector->SetLiftMotorPOHold(-robotConfig["collectLiftSpeed"]);
 }
 
 // Returns true when the command should end.
-bool Collect::IsFinished() { return true; }
+bool Collect::IsFinished() { return false; }
