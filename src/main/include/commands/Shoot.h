@@ -31,8 +31,6 @@ class Shoot
   void End(bool interrupted) override;
 
   bool IsFinished() override;
-
-  frc2::PIDController pid;
 private:
   Shooter* m_shooter;
   Elevator* m_elevator;
