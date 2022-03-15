@@ -23,6 +23,7 @@
 #include "commands/LIDARTest.h"
 #include "commands/Center.h"
 #include "commands/Collect.h"
+#include "commands/Shoot.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"
 #include <frc2/command/RunCommand.h>
@@ -88,16 +89,11 @@ class RobotContainer {
   frc2::Button m_manRB{[&] {return m_manStick.GetRightBumper();}};
   frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile("Position Logged! Front: " + (std::to_string(robotConfig["shootingSpeedFront"])) + ", Back: " + (std::to_string(robotConfig["shootingSpeedBack"])) + " @" + (std::to_string(posID)); posID++; } , {&m_driveBase} };
 
-  // Manip Right Trigger: Shoot
+  // Manip Left Trigger: Shoot High
+  frc2::Button m_manLT{[&] {return (0.5 < m_manStick.GetLeftTriggerAxis());}};
+
+  // Manip Right Trigger: Shoot Low
   frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
-  frc2::InstantCommand m_Shoot{[this] {
-    m_shooter.SetMotorsPO(-1,1);
-    if (m_shooter.GetMotorSpeed(true)>robotConfig["shootingSpeedFront"] && m_shooter.GetMotorSpeed(false)>robotConfig["shootingSpeedBack"]) {
-      m_elevator.SetMotorPO(1);
-    } else {
-      m_elevator.SetMotorPO(0);
-    }
-  }, {&m_shooter, &m_elevator}};
 
   // Manip A: Collect
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};

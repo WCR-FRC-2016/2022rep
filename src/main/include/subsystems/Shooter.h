@@ -28,7 +28,8 @@ class Shooter : public frc2::SubsystemBase {
   Shooter();
   void ShooterInit();
   void Periodic();
-  void SetMotorsPO(double left, double right);
+  void SetMotorsPO(double front, double back);
+  void SetMotorsVel(double front, double back);
   double GetMotorSpeed(bool back);
   void ChoosePipeline();
   double GetLimelightX();

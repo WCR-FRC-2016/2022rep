@@ -85,9 +85,14 @@ void Shooter::ShooterInit() {
 	*/
 }
 
-void Shooter::SetMotorsPO (double left, double right) {
-	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
-	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
+void Shooter::SetMotorsPO (double front, double back) {
+	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, front);
+	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, back);
+}
+
+void Shooter::SetMotorsVel (double front, double back) {
+	Front->Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, front);
+	Back->Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, back);
 }
 
 double Shooter::GetMotorSpeed (bool back) {
