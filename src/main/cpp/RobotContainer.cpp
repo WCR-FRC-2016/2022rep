@@ -65,8 +65,7 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_manRB.WhenPressed(m_LogPos);
 
     //m_manET.WhileHeld(m_ManualShoot);
-    m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedTHF"], robotConfig["shootingSpeedTHB"]));
-    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedTLF"], robotConfig["shootingSpeedTLB"]));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedFront"], robotConfig["shootingSpeedBack"]));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
