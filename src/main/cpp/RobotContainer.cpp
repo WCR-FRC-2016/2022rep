@@ -20,8 +20,11 @@ std::map<std::string, double> robotConfig = {
     {"useCamera", 0},
     {"useLIDAR", 0},
     {"useLimelight", 0},
-    {"shootingSpeedFront", 10000},
-    {"shootingSpeedBack", 10000}
+    {"shootingSpeedTLF", 4000},
+    {"shootingSpeedTLB", 4000},
+    {"shootingSpeedTHF", 8000},
+    {"shootingSpeedTHB", 7000},
+	{"shootingSpeedError", 100}
 };
 
 RobotContainer::RobotContainer() {
@@ -57,7 +60,8 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_driverB.WhenPressed(m_ReverseDrive);
 
     //m_manET.WhileHeld(m_ManualShoot);
-    m_manRT.WhileHeld(m_Shoot);
+    m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedTHF"], robotConfig["shootingSpeedTHB"]));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedTLF"], robotConfig["shootingSpeedTLB"]));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
