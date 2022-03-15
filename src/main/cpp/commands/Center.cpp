@@ -14,13 +14,17 @@ Center::Center(DriveBase* drivebase, Shooter* shooter) : pid{frc2::PIDController
 }
 
 // Called when the command is initially scheduled.
-void Center::Initialize() {}
+void Center::Initialize() {
+	pid.SetPID(robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"]);
+	pid.SetSetpoint(0);
+	pid.SetTolerance(0.1);
+}
 
 // Called repeatedly when this Command is scheduled to run
 void Center::Execute() {
   double rawRotation = m_shooter->GetLimelightX();
 
-  double passRotation = pid.Calculate(rawRotation, 0);
+  double passRotation = pid.Calculate(rawRotation);
 
   if (abs(passRotation*1000)<10) {passRotation = 0;}
 
@@ -33,7 +37,9 @@ void Center::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void Center::End(bool interrupted) {}
+void Center::End(bool interrupted) {
+	pid.Reset();
+}
 
 // Returns true when the command should end.
-bool Center::IsFinished() { return true; }
+bool Center::IsFinished() { return pid.AtSetpoint(); }
