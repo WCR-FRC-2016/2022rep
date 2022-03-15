@@ -11,6 +11,7 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/Shooter.h"
 #include "subsystems/Elevator.h"
+#include "subsystems/Collector.h"
 
 /**
  * An example command.
@@ -22,7 +23,7 @@
 class Shoot
     : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
-  Shoot(Shooter* shooter, Elevator* elevator, double frontSpeed, double backSpeed);
+  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed);
 
   void Initialize() override;
 
@@ -34,6 +35,7 @@ class Shoot
 private:
   Shooter* m_shooter;
   Elevator* m_elevator;
+  Collector* m_collector;
   
   double m_frontSpeed;
   double m_backSpeed;

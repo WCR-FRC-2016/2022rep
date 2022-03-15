@@ -24,7 +24,8 @@ std::map<std::string, double> robotConfig = {
     {"shootingSpeedTLB", 4000},
     {"shootingSpeedTHF", 8000},
     {"shootingSpeedTHB", 7000},
-	{"shootingSpeedError", 100}
+	 {"shootingSpeedError", 100},
+    {"collectLiftSpeed", 0.01}
 };
 
 RobotContainer::RobotContainer() {
@@ -60,12 +61,13 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_driverB.WhenPressed(m_ReverseDrive);
 
     //m_manET.WhileHeld(m_ManualShoot);
-    m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedTHF"], robotConfig["shootingSpeedTHB"]));
-    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, robotConfig["shootingSpeedTLF"], robotConfig["shootingSpeedTLB"]));
+    m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedTHF"], robotConfig["shootingSpeedTHB"]));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedTLF"], robotConfig["shootingSpeedTLB"]));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
-    m_manY.WhenPressed(m_PipelineSwap);
+    //m_manY.WhenPressed(m_PipelineSwap);
+    m_manY.WhenPressed(m_CollectorSwap);
 }
 
 void RobotContainer::OpenDriveBaseFile() {
