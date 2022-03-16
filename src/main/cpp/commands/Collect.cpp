@@ -21,7 +21,7 @@ void Collect::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Collect::Execute() {
-  m_collector->SetMotorPO((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())?-0.5:0);
+  m_collector->SetMotorPO((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())?-1:0);
   m_elevator->SetMotorPO(m_elevator->GetSwitch1()?0.5:0);
 }
 
