@@ -66,7 +66,7 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhileHeld(Center(&m_driveBase, &m_shooter));
-    //m_manY.WhenPressed(m_PipelineSwap);
+    m_manDPadRight.WhenPressed(m_PipelineSwap);
     m_manY.WhenPressed(m_CollectorSwap);
 }
 

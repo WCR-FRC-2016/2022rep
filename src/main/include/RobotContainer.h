@@ -85,11 +85,9 @@ class RobotContainer {
   // Manip X: Center
   frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
  
- /*
-  // Manip Y: Swap Vision Target
-  frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
+  // Manip Dpad Right: Swap Vision Target
+  frc2::Button m_manDPadRight{[&] {return m_manStick.GetPOV()>=45 && m_manStick.GetPOV()<=135;}};
   frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
-  */
 
   // Manip Y: Swap Collector Up/Down
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
