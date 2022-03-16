@@ -22,7 +22,7 @@ std::map<std::string, double> robotConfig = {
     {"useLimelight", 0},
     {"shootingSpeedFront", 10000},
     {"shootingSpeedBack", 10000},
-	{"shootingSpeedShift", 500},
+	{"shootingSpeedShift", 1000},
 	{"shootingSpeedError", 100},
     {"collectLiftSpeed", 0.01}
 };

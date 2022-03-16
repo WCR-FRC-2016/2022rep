@@ -114,13 +114,14 @@ class RobotContainer {
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
   frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0);}, {&m_collector} };
-  frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0); wpi::outs() << "switch: " << (m_elevator.GetSwitch1()?"true":"false") << " " << (m_elevator.GetSwitch2()?"true":"false") << "\n";}, {&m_elevator} };
+  frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0);}, {&m_elevator} };
   frc2::RunCommand m_ClimbControls{[this] {
     double m_turn   = m_manStick.GetRightX();
     double m_extend = m_manStick.GetLeftY();
     double passTurn   = (abs(m_turn*1000)   > 200?m_turn:0.0);
     double passExtend = (abs(m_extend*1000) > 200?m_extend:0.0);
     m_climber.SetMotorsPO(passTurn, passExtend);
+    wpi::outs() << "Front: " << std::to_string((double) robotConfig["shootingSpeedFront"]) << " Back: " << std::to_string((double) robotConfig["shootingSpeedBack"]) << "\n";
   }, {&m_climber}};
   
   int command_no;
