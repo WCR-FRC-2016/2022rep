@@ -74,10 +74,12 @@ class RobotContainer {
     m_shooter.SetMotorsPO(-1,-1);
     if (m_shooter.GetMotorSpeed(false)>robotConfig["shootingSpeedFront"] && m_shooter.GetMotorSpeed(true)>robotConfig["shootingSpeedBack"]) {
       m_elevator.SetMotorPO(0.5);
+      m_collector.SetMotorPO(0.5);
     } else {
       m_elevator.SetMotorPO(0);
+      m_collector.SetMotorPO(0);
     }
-  }, {&m_shooter, &m_elevator}};
+  }, {&m_shooter, &m_elevator, &m_collector}};
 
   // Manip A: Collect
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
