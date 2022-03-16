@@ -74,7 +74,7 @@ class RobotContainer {
 
   // Manip Right Trigger: Shoot Low
   frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
-
+  
   // Manip A: Collect
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
 
