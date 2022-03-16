@@ -14,11 +14,23 @@ Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double 
 }
 
 // Called when the command is initially scheduled.
-void Shoot::Initialize() {}
+void Shoot::Initialize() {
+  // TODO: temp to fix
+  m_frontSpeed = robotConfig["shootingSpeedFront"];
+  m_backSpeed = robotConfig["shootingSpeedBack"];
+}
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-    m_shooter->SetMotorsVel(-(m_frontSpeed+robotConfig["shootingSpeedError"]), -(m_backSpeed+robotConfig["shootingSpeedError"]));
+    double front, back;
+    front = m_frontSpeed/17868.0;
+    back = m_backSpeed/17868.0;
+    
+    m_shooter->SetMotorsPO(-front, -back);
+    
+    wpi::outs() << std::to_string((double) m_frontSpeed) << " " << std::to_string((double) m_backSpeed) << "\n";
+    wpi::outs() << std::to_string((double) front) << " " << std::to_string((double) back) << "\n";
+    wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 	
     if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {
       m_elevator->SetMotorPO(robotConfig["elevatorMoveSpeed"]);
