@@ -18,7 +18,7 @@ void Shoot::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-    m_shooter->SetMotorsVel(-(m_frontSpeed+robotConfig["shootingSpeedError"]), -(m_backSpeed+robotConfig["shootingSpeedError"]));
+    m_shooter->SetMotorsVel((m_frontSpeed+robotConfig["shootingSpeedError"]), (m_backSpeed+robotConfig["shootingSpeedError"]));
 	
     if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {
       m_elevator->SetMotorPO(0.5);
