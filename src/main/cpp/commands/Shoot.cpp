@@ -10,18 +10,32 @@
 
 Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed) : m_shooter{shooter}, m_elevator{elevator}, m_collector{collector}, m_frontSpeed{frontSpeed}, m_backSpeed{backSpeed}  {
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({shooter, elevator});
+  AddRequirements({shooter, elevator, collector});
+}
+
+Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector) : m_shooter{shooter}, m_elevator{elevator}, m_collector{collector}  {
+  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements({shooter, elevator, collector});
 }
 
 // Called when the command is initially scheduled.
-void Shoot::Initialize() {}
+void Shoot::Initialize() {
+  m_shooter->SetLimelightCamMode(0);
+  
+  double LLY = m_shooter->GetLimelightY();
+
+  m_frontSpeed = robotConfig["shootingSpeedLLFA"]*LLY*LLY + robotConfig["shootingSpeedLLFB"]*LLY + robotConfig["shootingSpeedLLFC"];
+  m_backSpeed = robotConfig["shootingSpeedLLBA"]*LLY*LLY + robotConfig["shootingSpeedLLBB"]*LLY + robotConfig["shootingSpeedLLBC"];
+
+  m_atSpeed = false;
+}
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
     double front, back;
-    front = m_frontSpeed/17868.0 + 0.1;
-    back = m_backSpeed/17868.0 + 0.1;
-    
+    front = m_frontSpeed/10000.0;
+    back = m_backSpeed/10000.0;
+
     m_shooter->SetMotorsPO(-front, -back);
     
     wpi::outs() << std::to_string((double) m_frontSpeed) << " " << std::to_string((double) m_backSpeed) << "\n";
@@ -29,8 +43,12 @@ void Shoot::Execute() {
     wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 	
     if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {
+      m_atSpeed = true;
+    }
+
+    if (m_atSpeed) {
       m_elevator->SetMotorPO(robotConfig["elevatorMoveSpeed"]);
-      m_collector->SetMotorPO(robotConfig["collectMoveSpeed"]); // TODO: On Low Shoot, Elevator is running, collector isn't
+      m_collector->SetMotorPO(robotConfig["collectMoveSpeed"]);
     } else {
       m_elevator->SetMotorPO(0);
       m_collector->SetMotorPO(0);
@@ -38,7 +56,9 @@ void Shoot::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void Shoot::End(bool interrupted) {}
+void Shoot::End(bool interrupted) {
+  m_shooter->SetLimelightCamMode(1);
+}
 
 // Returns true when the command should end.
 bool Shoot::IsFinished() { return false; }

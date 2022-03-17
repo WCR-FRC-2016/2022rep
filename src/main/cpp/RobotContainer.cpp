@@ -22,8 +22,14 @@ std::map<std::string, double> robotConfig = {
     {"useLimelight", 0},
     {"shootingSpeedFront", 10000},
     {"shootingSpeedBack", 10000},
+    {"shootingSpeedLLFA", 2500},
+    {"shootingSpeedLLFB", 300},
+    {"shootingSpeedLLFC", 1000},
+    {"shootingSpeedLLBA", 2500},
+    {"shootingSpeedLLBB", 300},
+    {"shootingSpeedLLBC", 1000},
 	{"shootingSpeedShift", 1000},
-	{"shootingSpeedError", 100},
+	 {"shootingSpeedError", 100},
     {"collectLiftSpeed", 0.01},
     {"collectMoveSpeed", -1},
     {"elevatorMoveSpeed", 0.5}
@@ -69,6 +75,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
     //m_manET.WhileHeld(m_ManualShoot);
     m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedFront"], robotConfig["shootingSpeedBack"]));
+    m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhenPressed(m_CollectorSwap);
