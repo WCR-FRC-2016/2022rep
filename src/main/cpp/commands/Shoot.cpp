@@ -33,8 +33,8 @@ void Shoot::Execute() {
     wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 	
     if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {
-      m_elevator->SetMotorPO(0.5);
-      m_collector->SetMotorPO(1);
+      m_elevator->SetMotorPO(robotConfig["elevatorMoveSpeed"]);
+      m_collector->SetMotorPO(robotConfig["collectMoveSpeed"]);
     } else {
       m_elevator->SetMotorPO(0);
       m_collector->SetMotorPO(0);
