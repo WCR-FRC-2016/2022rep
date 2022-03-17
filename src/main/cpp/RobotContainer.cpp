@@ -25,7 +25,9 @@ std::map<std::string, double> robotConfig = {
     {"shootingSpeedTHF", 8000},
     {"shootingSpeedTHB", 7000},
 	 {"shootingSpeedError", 100},
-    {"collectLiftSpeed", 0.01}
+    {"collectLiftSpeed", 0.01},
+    {"collectMoveSpeed", -1},
+    {"elevatorMoveSpeed", 0.5}
 };
 
 RobotContainer::RobotContainer() {

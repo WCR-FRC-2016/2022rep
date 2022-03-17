@@ -80,7 +80,7 @@ class RobotContainer {
 
   // Manip B: Uncollect
   frc2::Button m_manB{[&] {return m_manStick.GetBButton();}};
-  frc2::InstantCommand m_Uncollect{[this] {m_collector.SetMotorPO(-0.5); m_elevator.SetMotorPO(-0.5);} , {&m_collector, &m_elevator} };
+  frc2::InstantCommand m_Uncollect{[this] {m_collector.SetMotorPO(-robotConfig["collectMoveSpeed"]); m_elevator.SetMotorPO(-robotConfig["elevatorMoveSpeed"]);} , {&m_collector, &m_elevator} };
   
   // Manip X: Swap Collector Up/Down
   frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
