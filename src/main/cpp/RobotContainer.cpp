@@ -21,7 +21,7 @@ std::map<std::string, double> robotConfig = {
     {"useLIDAR", 0},
     {"useLimelight", 0},
     {"shootingSpeedTLF", 0.1},
-    {"shootingSpeedTLB", 0.2},
+    {"shootingSpeedTLB", 0.5},
     {"shootingSpeedTHF", 0.8},
     {"shootingSpeedTHB", 0.7},
     {"shootingSpeedLLFA", 0.0025},
