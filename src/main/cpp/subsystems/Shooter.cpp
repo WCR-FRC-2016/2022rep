@@ -97,8 +97,9 @@ void Shooter::SetMotorsVel (double front, double back) {
 	Back->Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, back);
 }
 
+// Actually returns PO
 double Shooter::GetMotorSpeed (bool back) {
-    double speed = -(back?Back:Front)->GetSensorCollection().GetQuadratureVelocity();
+    double speed = -(back?Back:Front)->GetMotorOutputPercent();
     wpi::outs() << "Motor Speed " << (back?"Back ":"Front ") << std::to_string((double) speed) << "\n";
     return speed;
 }

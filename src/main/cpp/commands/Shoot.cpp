@@ -11,35 +11,42 @@
 Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed) : m_shooter{shooter}, m_elevator{elevator}, m_collector{collector}, m_frontSpeed{frontSpeed}, m_backSpeed{backSpeed}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({shooter, elevator, collector});
+
+  m_useLimelight = false;
 }
 
 Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector) : m_shooter{shooter}, m_elevator{elevator}, m_collector{collector}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({shooter, elevator, collector});
+
+  m_useLimelight = true;
 }
 
 // Called when the command is initially scheduled.
 void Shoot::Initialize() {
   m_shooter->SetLimelightCamMode(0);
   
-  double LLY = m_shooter->GetLimelightY();
+  if (m_useLimelight) {
+    double LLY = m_shooter->GetLimelightY();
 
-  m_frontSpeed = robotConfig["shootingSpeedLLFA"]*LLY*LLY + robotConfig["shootingSpeedLLFB"]*LLY + robotConfig["shootingSpeedLLFC"];
-  m_backSpeed = robotConfig["shootingSpeedLLBA"]*LLY*LLY + robotConfig["shootingSpeedLLBB"]*LLY + robotConfig["shootingSpeedLLBC"];
+    m_frontSpeed = robotConfig["shootingSpeedLLFA"]*LLY*LLY + robotConfig["shootingSpeedLLFB"]*LLY + robotConfig["shootingSpeedLLFC"];
+    m_backSpeed = robotConfig["shootingSpeedLLBA"]*LLY*LLY + robotConfig["shootingSpeedLLBB"]*LLY + robotConfig["shootingSpeedLLBC"];
+  } else {
+    m_frontSpeed = robotConfig["shootingSpeedFront"];
+    m_backSpeed = robotConfig["shootingSpeedBack"];
+  }
 
   m_atSpeed = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-    double front, back;
-    front = m_frontSpeed/10000.0;
-    back = m_backSpeed/10000.0;
+    double front_err = (m_frontSpeed>0.2)?((1.2-m_frontSpeed)/10.0):0;
+    double back_err = (m_backSpeed>0.2)?((1.2-m_backSpeed)/10.0):0;
 
-    m_shooter->SetMotorsPO(-front, -back);
+    m_shooter->SetMotorsPO(-(m_frontSpeed+front_err), -(m_backSpeed+back_err));
     
     wpi::outs() << std::to_string((double) m_frontSpeed) << " " << std::to_string((double) m_backSpeed) << "\n";
-    wpi::outs() << std::to_string((double) front) << " " << std::to_string((double) back) << "\n";
     wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 	
     if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {

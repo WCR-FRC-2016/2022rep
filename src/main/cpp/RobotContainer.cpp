@@ -20,17 +20,18 @@ std::map<std::string, double> robotConfig = {
     {"useCamera", 0},
     {"useLIDAR", 0},
     {"useLimelight", 0},
-    {"shootingSpeedTLF", 1000},
-    {"shootingSpeedTLB", 2000},
-    {"shootingSpeedTHF", 8000},
-    {"shootingSpeedTHB", 7000},
-    {"shootingSpeedLLFA", 2500},
-    {"shootingSpeedLLFB", 300},
-    {"shootingSpeedLLFC", 1000},
-    {"shootingSpeedLLBA", 2500},
-    {"shootingSpeedLLBB", 300},
-    {"shootingSpeedLLBC", 1000},
-	 {"shootingSpeedError", 100},
+    {"shootingSpeedTLF", 0.1},
+    {"shootingSpeedTLB", 0.2},
+    {"shootingSpeedTHF", 0.8},
+    {"shootingSpeedTHB", 0.7},
+    {"shootingSpeedLLFA", 0.0025},
+    {"shootingSpeedLLFB", 0.03},
+    {"shootingSpeedLLFC", 0.1},
+    {"shootingSpeedLLBA", 0.0025},
+    {"shootingSpeedLLBB", 0.03},
+    {"shootingSpeedLLBC", 0.1},
+	{"shootingSpeedShift", 0.1},
+	 {"shootingSpeedError", 0.05},
     {"collectLiftSpeed", 0.01},
     {"collectMoveSpeed", -1},
     {"elevatorMoveSpeed", 0.5}
@@ -91,6 +92,8 @@ void RobotContainer::ReadFile() {
    // Reset file to start.
    autofile.close();
    autofile.open(autofilename);
+
+   commands.clear();
 
    // Read the file.
    std::string line;
