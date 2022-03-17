@@ -33,4 +33,6 @@ class Shooter : public frc2::SubsystemBase {
   double GetMotorSpeed(bool back);
   void ChoosePipeline();
   double GetLimelightX();
+  double GetLimelightY();
+  void SetLimelightCamMode(int mode);
 };

@@ -24,6 +24,7 @@ class Shoot
     : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
   Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed);
+  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector);
 
   void Initialize() override;
 
@@ -39,4 +40,6 @@ private:
   
   double m_frontSpeed;
   double m_backSpeed;
+
+  bool m_atSpeed;
 };

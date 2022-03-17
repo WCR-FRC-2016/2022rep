@@ -63,6 +63,8 @@ void Collector::CollectorInit() {
     Motor->SetSelectedSensorPosition(0,0,0);
     LiftMotor->SetSelectedSensorPosition(0,0,0);
 */
+
+    SetLiftMotorPOHold(-robotConfig["collectLiftSpeed"]);
 }
 
 void Collector::Periodic() {
