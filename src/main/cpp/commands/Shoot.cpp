@@ -54,7 +54,7 @@ void Shoot::Execute() {
     }
 
     if (m_atSpeed) {
-      m_elevator->SetMotorPO(robotConfig["elevatorMoveSpeed"]);
+      m_elevator->SetMotorPO((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())?robotConfig["elevatorMoveSpeed"]:2*robotConfig["elevatorMoveSpeed"]);
       m_collector->SetMotorPO(robotConfig["collectMoveSpeed"]);
     } else {
       m_elevator->SetMotorPO(0);
