@@ -14,17 +14,13 @@ Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double 
 }
 
 // Called when the command is initially scheduled.
-void Shoot::Initialize() {
-  // TODO: temp to fix
-  m_frontSpeed = robotConfig["shootingSpeedFront"];
-  m_backSpeed = robotConfig["shootingSpeedBack"];
-}
+void Shoot::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
     double front, back;
-    front = m_frontSpeed/17868.0;
-    back = m_backSpeed/17868.0;
+    front = m_frontSpeed/17868.0 + 0.1;
+    back = m_backSpeed/17868.0 + 0.1;
     
     m_shooter->SetMotorsPO(-front, -back);
     
@@ -34,7 +30,7 @@ void Shoot::Execute() {
 	
     if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {
       m_elevator->SetMotorPO(robotConfig["elevatorMoveSpeed"]);
-      m_collector->SetMotorPO(robotConfig["collectMoveSpeed"]);
+      m_collector->SetMotorPO(robotConfig["collectMoveSpeed"]); // TODO: On Low Shoot, Elevator is running, collector isn't
     } else {
       m_elevator->SetMotorPO(0);
       m_collector->SetMotorPO(0);
