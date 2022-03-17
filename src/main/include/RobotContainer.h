@@ -99,16 +99,18 @@ class RobotContainer {
   frc2::Button m_manB{[&] {return m_manStick.GetBButton();}};
   frc2::InstantCommand m_Uncollect{[this] {m_collector.SetMotorPO(1); m_elevator.SetMotorPO(-0.5);} , {&m_collector, &m_elevator} };
   
-  // Manip X: Center
+  // Manip X: Swap Collector Up/Down
   frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
- 
-  // Manip Dpad Right: Swap Vision Target
-  frc2::Button m_manDPadRight{[&] {return m_manStick.GetPOV()>=45 && m_manStick.GetPOV()<=135;}};
-  frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
-
-  // Manip Y: Swap Collector Up/Down
-  frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
   frc2::InstantCommand m_CollectorSwap{[this] {m_collector.SwapLiftMotorPOHold();} , {&m_shooter} };
+ 
+ /*
+  // Manip Dpad Right: Center
+  frc2::Button m_manDPadRight{[&] {return m_manStick.GetPOV()>=45 && m_manStick.GetPOV()<=135;}};
+  */
+
+  // Manip Y: Swap Vision Target
+  frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
+  frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
   frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0);}, {&m_collector} };
