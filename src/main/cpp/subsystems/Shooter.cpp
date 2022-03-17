@@ -97,8 +97,9 @@ void Shooter::SetMotorsVel (double front, double back) {
 	Back->Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, back);
 }
 
+// Actually returns PO
 double Shooter::GetMotorSpeed (bool back) {
-    return -(back?Back:Front)->GetSensorCollection().GetQuadratureVelocity();
+    return -(back?Back:Front)->GetMotorOutputPercent();
 }
 
 void Shooter::ChoosePipeline() {

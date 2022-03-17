@@ -42,4 +42,5 @@ private:
   double m_backSpeed;
 
   bool m_atSpeed;
+  bool m_useLimelight;
 };
