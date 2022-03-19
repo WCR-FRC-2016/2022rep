@@ -94,6 +94,9 @@ class RobotContainer {
 
   // Manip Left Bumper: Shoot with Limelight?
   frc2::Button m_manLB{[&] {return m_manStick.GetLeftBumper();}};
+
+  // Manip Left Trigger: Shoot
+  frc2::Button m_manLT{[&] {return (0.5 < m_manStick.GetLeftTriggerAxis());}};
   
   // Manip A: Collect
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};

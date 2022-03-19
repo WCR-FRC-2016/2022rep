@@ -24,7 +24,7 @@ void Shooter::ShooterInit() {
         //frc::Shuffleboard::GetTab("Numbers").Add("Hood",yTurretMotor->GetSelectedSensorPosition());
         nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
         
-        table->PutNumber("camMode", 1);
+        SetLimelightCamMode(1);
     }
 
     initialized = true;
@@ -133,6 +133,7 @@ double Shooter::GetLimelightY () {
 void Shooter::SetLimelightCamMode(int mode) {
     if (robotConfig["useLimelight"]>0) {
         table->PutNumber("camMode", mode);
+        table->PutNumber("ledMode", (mode==1)?1:0);
     }
 }
 
