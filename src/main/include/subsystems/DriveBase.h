@@ -29,7 +29,7 @@ class DriveBase : public frc2::SubsystemBase {
   //AHRS * ahrs;
   frc::DifferentialDrive * _diffDrive;
 
-  std::fstream recordfile {"/home/lvuser/wcrj/replay.txt"};
+  std::fstream recordfile {"/home/lvuser/wcrj/replay.txt", std::ios_base::out | std::ios_base::trunc};
 
  public:
   DriveBase();

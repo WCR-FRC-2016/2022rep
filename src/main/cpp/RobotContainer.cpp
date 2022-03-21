@@ -79,11 +79,12 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.85, 0.8));
     m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.8, 0.5));
     //m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
-    m_manA.WhileHeld(Collect(&m_collector, &m_elevator));
+    m_manA.WhileHeld(Collect(&m_collector, &m_elevator, true));
     m_manB.WhileHeld(m_Uncollect);
     m_manX.WhenPressed(m_CollectorSwap);
+    m_manY.WhileHeld(Collect(&m_collector, &m_elevator, false));
     //m_manDPadRight.WhileHeld(Center(&m_driveBase, &m_shooter));
-    m_manY.WhenPressed(m_PipelineSwap);
+    m_manStart.WhenPressed(m_PipelineSwap);
 }
 
 void RobotContainer::OpenDriveBaseFile() {
