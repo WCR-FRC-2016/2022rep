@@ -22,7 +22,7 @@
 class Collect
     : public frc2::CommandHelper<frc2::CommandBase, Collect> {
  public:
-  Collect(Collector* collector, Elevator* elevator);
+  Collect(Collector* collector, Elevator* elevator, bool intakeLift);
 
   void Initialize() override;
 
@@ -34,4 +34,6 @@ class Collect
 private:
   Collector* m_collector;
   Elevator* m_elevator;
+  
+  bool m_intakeLift;
 };

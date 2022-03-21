@@ -78,7 +78,7 @@ class RobotContainer {
   // Manip Left Bumper: Shoot with Limelight?
   frc2::Button m_manLB{[&] {return m_manStick.GetLeftBumper();}};
   
-  // Manip A: Collect
+  // Manip A: Collect With Intake
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
 
   // Manip B: Uncollect
@@ -94,8 +94,11 @@ class RobotContainer {
   frc2::Button m_manDPadRight{[&] {return m_manStick.GetPOV()>=45 && m_manStick.GetPOV()<=135;}};
   */
 
-  // Manip Y: Swap Vision Target
+  // Manip Y: Collect Without Intake
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
+
+  // Manip Start: Swap Vision Target
+  frc2::Button m_manStart{[&] {return m_manStick.GetStartButton();}};
   frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
