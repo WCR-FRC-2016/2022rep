@@ -85,18 +85,20 @@ class RobotContainer {
   frc2::Button m_manDPadL{[&] {return m_manStick.GetPOV()==270;}};
   frc2::InstantCommand m_AdjustSpeedBackDown{[this] {robotConfig["shootingSpeedBack"]-=robotConfig["shootingSpeedShift"];} , {&m_shooter} };
   
-  // Manip Right Bumper: Log Shooting Position
-  frc2::Button m_manRB{[&] {return m_manStick.GetRightBumper();}};
+  // Manip Back: Log Motor Speeds
+  frc2::Button m_manBack{[&] {return m_manStick.GetBackButton();}};
   frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile("Position Logged! Front: " + (std::to_string(robotConfig["shootingSpeedFront"])) + ", Back: " + (std::to_string(robotConfig["shootingSpeedBack"])) + " @" + (std::to_string(posID))); posID++; } , {&m_driveBase} };
 
-  // Manip Right Trigger: Shoot
+  // Manip Left Trigger: Shoot Low
+  // Manip Right Trigger: Shoot Low
+  frc2::Button m_manLT{[&] {return (0.5 < m_manStick.GetLeftTriggerAxis());}};
   frc2::Button m_manRT{[&] {return (0.5 < m_manStick.GetRightTriggerAxis());}};
 
-  // Manip Left Bumper: Shoot with Limelight?
+  // Manip Left Bumper: Shoot from Launchpad
   frc2::Button m_manLB{[&] {return m_manStick.GetLeftBumper();}};
-
-  // Manip Left Trigger: Shoot
-  frc2::Button m_manLT{[&] {return (0.5 < m_manStick.GetLeftTriggerAxis());}};
+  
+  // Manip Right Bumper: Log Shooting Position
+  frc2::Button m_manRB{[&] {return m_manStick.GetRightBumper();}};
   
   // Manip A: Collect With Intake
   frc2::Button m_manA{[&] {return m_manStick.GetAButton();}};
