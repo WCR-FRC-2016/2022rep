@@ -8,9 +8,19 @@
 #include "commands/Collect.h"
 #include "RobotMap.h"
 
+Collect::Collect(Collector* collector, Elevator* elevator, bool intakeLift, double time) : m_collector{collector}, m_elevator{elevator}, m_intakeLift{intakeLift}, m_time{time}  {
+  // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements({collector, elevator});
+  
+  m_elapsed = 0;
+}
+
 Collect::Collect(Collector* collector, Elevator* elevator, bool intakeLift) : m_collector{collector}, m_elevator{elevator}, m_intakeLift{intakeLift}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({collector, elevator});
+  
+  m_time = -1;
+  m_elapsed = 0;
 }
 
 // Called when the command is initially scheduled.
@@ -23,6 +33,8 @@ void Collect::Initialize() {
 void Collect::Execute() {
   m_collector->SetMotorPO((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())?robotConfig["collectMoveSpeed"]:0);
   m_elevator->SetMotorPO(m_elevator->GetSwitch1()?robotConfig["elevatorMoveSpeed"]:0);
+  
+  m_elapsed+=20;
 }
 
 // Called once the command ends or is interrupted.
@@ -32,4 +44,4 @@ void Collect::End(bool interrupted) {
 }
 
 // Returns true when the command should end.
-bool Collect::IsFinished() { return false; }
+bool Collect::IsFinished() { return (m_time==-1)?false:(m_elapsed>=m_time); }

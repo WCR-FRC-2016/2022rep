@@ -99,7 +99,7 @@ void DriveBase::ArcadeDrive(double xAxis, double yAxis) {
 
 	if (robotConfig["record"]>0)
 	{
-		recordfile << "replay " << xAxis << " " << yAxis << "\n";
+		recordfile << "replay " << xAxis << " " << yAxis << " 1\n";
 	}
 	
   	double parsedLeft;

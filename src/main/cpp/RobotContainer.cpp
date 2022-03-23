@@ -162,14 +162,12 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       args.push_back(num);
    }
 
-   // TODO: Use WithTimeout with ArcadeDrive
-
-   // TODO: Add Collector
-
    if (args.size()==3) {
       return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, args[2]);
+   } else if (args.size()==2) { 
+      return new ScheduleCommand(Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
       return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.8:0.1, 0.5, 2500);
    }
-   return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
+   //return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
 }
