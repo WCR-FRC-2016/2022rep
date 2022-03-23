@@ -134,6 +134,23 @@ class RobotContainer {
     m_climber.SetMotorsPO(passTurn, passExtend);
     wpi::outs() << "Front: " << std::to_string((double) robotConfig["shootingSpeedFront"]) << " Back: " << std::to_string((double) robotConfig["shootingSpeedBack"]) << "\n";
   }, {&m_climber}};
+  frc2::RunCommand m_Rumble{[this] {
+    if (robotConfig["useRumbleManip"]) {
+      m_manStick.setLeftRumble(m_elevator.GetSensor1()?0:robotConfig["rumbleManipStrength"]);
+      m_manStick.setRightRumble(m_elevator.GetSensor2()?0:robotConfig["rumbleManipStrength"]);
+	}
+    if (robotConfig["useRumbleDriver"]) {
+      m_driverStick.setLeftRumble(m_elevator.GetSensor1()?0:robotConfig["rumbleDriverStrength"]);
+      m_driverStick.setRightRumble(m_elevator.GetSensor2()?0:robotConfig["rumbleDriverStrength"]);
+	}
+  }, {}}; // Doesn't exclusively require m_elevator because we're only reading sensors.
+  /*
+  frc2::RunCommand m_DriverRumble{[this] {
+    double strength = (robotConfig["lowLimelightY"]<m_shooter.GetLimelightY() && m_shooter.GetLimelightY()<robotConfig["highLimelightY"])?robotConfig["rumbleDriverStrength"]:0;
+    m_driverStick.setLeftRumble(strength);
+    m_driverStick.setRightRumble(strength);
+  }, {}}; // Doesn't exclusively require m_shooter because we're only reading sensors.
+  */
   
   int command_no;
  

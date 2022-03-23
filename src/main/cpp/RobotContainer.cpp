@@ -20,6 +20,8 @@ std::map<std::string, double> robotConfig = {
     {"useCamera", 0},
     {"useLIDAR", 0},
     {"useLimelight", 0},
+	{"useRumbleManip", 0},
+	{"useRumbleDriver", 0},
     {"shootingSpeedFront", 0.5},
     {"shootingSpeedBack", 0.5},
     {"shootingSpeedLLFA", 0.0025},
@@ -32,7 +34,9 @@ std::map<std::string, double> robotConfig = {
 	 {"shootingSpeedError", 0.05},
     {"collectLiftSpeed", 0.01},
     {"collectMoveSpeed", -1},
-    {"elevatorMoveSpeed", 0.5}
+    {"elevatorMoveSpeed", 0.5},
+	{"rumbleManipStrength", 0},
+	{"rumbleDriverStrength", 0}
 };
 
 RobotContainer::RobotContainer() {
@@ -47,6 +51,9 @@ RobotContainer::RobotContainer() {
        // TODO: Make this not make the robot not drive.
        m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
    }
+   
+   if (robotConfig["useRumbleManip"]>0) m_ManipRumble.Schedule();
+   if (robotConfig["useRumbleDriver"]>0) m_DriverRumble.Schedule();
 
    m_shooter.SetDefaultCommand(m_NoShoot);
 
