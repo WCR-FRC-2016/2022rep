@@ -11,6 +11,7 @@ std::map<std::string, double> robotConfig = {
     {"RampTime", 0.325},
     {"PIDDeadband", 0.114}, // TODO: PID needs to be tuned.
     {"minTurn", 0.1},
+    {"driveMaxSpeed", 0.85};
     {"record", 0},
     {"aimingP", 1},
     {"aimingI", 0},
@@ -43,7 +44,7 @@ RobotContainer::RobotContainer() {
    SetConfig();
     
    m_driveBase.SetDefaultCommand(ArcadeDrive(&m_driveBase, 
-    [this] { return m_driverStick.GetRightX()/2;} ,
+    [this] { return m_driverStick.GetRightX()*robotConfig["driveMaxSpeed"];} ,
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
 
@@ -81,7 +82,7 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_manBack.WhenPressed(m_LogPos);
 
     //m_manET.WhileHeld(m_ManualShoot);
-    m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.1, 0.5));
+    m_manLT.WhileHeld(m_SpinUpShoot);
     m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.1, 0.5));
     m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.85, 0.8));
     m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.8, 0.5));
@@ -113,8 +114,7 @@ void RobotContainer::ReadFile() {
 
    // Read the file.
    std::string line;
-   while (getline(autofile, line))
-   {
+   while (getline(autofile, line)) {
       commands.push_back(line);
    }
 }
@@ -128,8 +128,7 @@ void RobotContainer::SetConfig() {
 
    std::string line;
    //std::map<std::string,double>::iterator itr;
-   while (getline(configfile, line))
-   {
+   while (getline(configfile, line)) {
       std::string name;
       double value;
       std::istringstream words (line);
@@ -164,7 +163,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
    if (args.size()==3) {
       return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, args[2]);
-   } else if (args.size()==2) { 
+   } else if (args.size()==2) {
       return new ScheduleCommand(Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
       return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.8:0.1, 0.5, 2500);
