@@ -90,7 +90,7 @@ class RobotContainer {
   
   // Manip Back: Log Motor Speeds
   frc2::Button m_manBack{[&] {return m_manStick.GetBackButton();}};
-  frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile("Position Logged! Front: " + (std::to_string(robotConfig["shootingSpeedFront"])) + ", Back: " + (std::to_string(robotConfig["shootingSpeedBack"])) + " @" + (std::to_string(posID))); posID++; } , {&m_driveBase} };
+  frc2::InstantCommand m_LogPos{[this] {m_driveBase.writeToFile(m_recording.writeData(2, robotConfig["shootingSpeedFront"]); m_recording.writeData(3, robotConfig["shootingSpeedBack"]); m_recording.writeLine();} , {} };
 
   // Manip Left Trigger: Spin Up Shooter
   frc2::Button m_manLT{[&] {return (0.5 < m_manStick.GetLeftTriggerAxis());}};

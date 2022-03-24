@@ -9,19 +9,19 @@
 #include "RobotMap.h"
 
 Recording::Recording(std::string filename) {
-	recordfile.open(filename);
+	OpenFile(filename);
 }
 
 Recording::Recording() {
-	recordfile.open("/home/lvuser/wcrj/replay.txt");
+	OpenFile();
 }
 
 void Recording::OpenFile(std::string filename) {
-	if (!recordfile.is_open()) recordfile.open(filename);
+	if (!recordfile.is_open()) recordfile.open(filename, std::ios_base::out | std::ios_base::trunc);
 }
 
 void Recording::OpenFile() {
-	if (!recordfile.is_open()) recordfile.open("/home/lvuser/wcrj/replay.txt");
+	OpenFile("/home/lvuser/wcrj/replay.txt");
 }
 
 
