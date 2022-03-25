@@ -11,7 +11,7 @@ std::map<std::string, double> robotConfig = {
     {"RampTime", 0.325},
     {"PIDDeadband", 0.114}, // TODO: PID needs to be tuned.
     {"minTurn", 0.1},
-    {"driveMaxSpeed", 0.85};
+    {"driveMaxSpeed", 0.85},
     {"record", 0},
     {"aimingP", 1},
     {"aimingI", 0},
@@ -53,8 +53,8 @@ RobotContainer::RobotContainer() {
        m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
    }
    
-   if (robotConfig["useRumbleManip"]>0) m_ManipRumble.Schedule();
-   if (robotConfig["useRumbleDriver"]>0) m_DriverRumble.Schedule();
+   m_Rumble.Schedule();
+   //if (robotConfig["useRumbleDriver"]>0) m_DriverRumble.Schedule();
 
    m_shooter.SetDefaultCommand(m_NoShoot);
 
@@ -164,7 +164,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
    if (args.size()==3) {
       return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, args[2]);
    } else if (args.size()==2) {
-      return new ScheduleCommand(Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
+      return new frc2::ScheduleCommand(new Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
       return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.8:0.1, 0.5, 2500);
    }
