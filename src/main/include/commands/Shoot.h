@@ -42,6 +42,9 @@ private:
   double m_frontSpeed;
   double m_backSpeed;
 
+  double m_frontSign;
+  double m_backSign;
+
   bool m_atSpeed;
   bool m_config;
   bool m_useLimelight;

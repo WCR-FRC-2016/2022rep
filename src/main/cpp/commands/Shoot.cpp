@@ -55,6 +55,12 @@ void Shoot::Initialize() {
 
   m_atSpeed = false;
 
+  m_frontSign = (m_frontSpeed<0)?-1:1;
+  m_backSign = (m_backSpeed<0)?-1:1;
+
+  m_frontSpeed /= m_frontSign;
+  m_backSpeed /= m_backSign;
+
   /*
   double LimeLightY = m_shooter->GetLimelightY();
   double LimeLightX = m_shooter->GetLimelightX();
@@ -68,12 +74,12 @@ void Shoot::Execute() {
   double front_err = (m_frontSpeed>0.2)?((1.2-m_frontSpeed)/10.0):0;
   double back_err = (m_backSpeed>0.2)?((1.2-m_backSpeed)/10.0):0;
 
-  m_shooter->SetMotorsPO(-(m_frontSpeed+front_err), -(m_backSpeed+back_err));
+  m_shooter->SetMotorsPO(-(m_frontSpeed+front_err)*m_frontSign, -(m_backSpeed+back_err)*m_backSign);
   
   wpi::outs() << std::to_string((double) m_frontSpeed) << " " << std::to_string((double) m_backSpeed) << "\n";
   wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 
-  if (m_shooter->GetMotorSpeed(false)>m_frontSpeed && m_shooter->GetMotorSpeed(true)>m_backSpeed) {
+  if (m_shooter->GetMotorSpeed(false)*m_frontSign>m_frontSpeed && m_shooter->GetMotorSpeed(true)*m_backSign>m_backSpeed) {
     m_atSpeed = true;
   }
 
