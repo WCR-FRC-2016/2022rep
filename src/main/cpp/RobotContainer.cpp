@@ -49,10 +49,6 @@ RobotContainer::RobotContainer() {
     [this] { return -m_driverStick.GetLeftY()/1.5;}
    ));
    m_driveBase.SetRecording(&m_recording);
-
-   if (robotConfig["useLIDAR"]>0) {
-       LIDARTest(&m_recording).Schedule();
-   }
    
    //m_Rumble.Schedule();
    //if (robotConfig["useRumbleDriver"]>0) m_DriverRumble.Schedule();
@@ -96,6 +92,10 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manStart.WhenPressed(m_PipelineSwap);
     
    m_always.WhileHeld(m_Rumble);
+
+   if (robotConfig["useLIDAR"]>0) {
+       m_always.WhileHeld(LIDARTest(&m_recording));
+   }
 }
 
 void RobotContainer::ReadFile() {
