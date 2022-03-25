@@ -53,7 +53,7 @@ RobotContainer::RobotContainer() {
        m_driveBase.SetDefaultCommand(LIDARTest(&m_driveBase));
    }
    
-   m_Rumble.Schedule();
+   //m_Rumble.Schedule();
    //if (robotConfig["useRumbleDriver"]>0) m_DriverRumble.Schedule();
 
    m_shooter.SetDefaultCommand(m_NoShoot);
@@ -85,7 +85,7 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manLT.WhileHeld(m_SpinUpShoot);
     m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.1, 0.5));
     m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.85, 0.8));
-    m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.8, 0.5));
+    m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, false));
     //m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator, true));
     m_manB.WhileHeld(m_Uncollect);
@@ -93,6 +93,8 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manY.WhileHeld(Collect(&m_collector, &m_elevator, false));
     //m_manDPadRight.WhileHeld(Center(&m_driveBase, &m_shooter));
     m_manStart.WhenPressed(m_PipelineSwap);
+    
+   m_always.WhileHeld(m_Rumble);
 }
 
 void RobotContainer::OpenDriveBaseFile() {

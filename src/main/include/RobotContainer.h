@@ -59,6 +59,19 @@ class RobotContainer {
   // Driver Right Bumper: Swap speed to 1 or 0.5 (0.5 if at 1, otherwise 1)
   frc2::Button m_driverRB{[&] {return m_driverStick.GetRightBumper();}};
   frc2::InstantCommand m_SwapSpeed{[this] {m_driveBase.setSpeed(m_driveBase.getSpeed()>0.95?0.5:1.0);} , {&m_driveBase} };
+
+  frc2::Button m_always{[&] {return true;}}; // The code equivalent of taping over a button
+  frc2::InstantCommand m_Rumble{[this] {
+    double strength = 0;
+    if (!m_elevator.GetSwitch1()) strength += 0.5;
+    if (!m_elevator.GetSwitch2()) strength += 0.5;
+    if (robotConfig["useRumbleManip"]>0) {
+      m_manStick.SetRumble(frc::GenericHID::RumbleType::kRightRumble, strength*robotConfig["rumbleManipStrength"]);
+	}
+    if (robotConfig["useRumbleDriver"]>0) {
+      m_driverStick.SetRumble(frc::GenericHID::RumbleType::kRightRumble, strength*robotConfig["rumbleDriverStrength"]);
+	}
+  }, {}}; // Doesn't exclusively require m_elevator because we're only reading sensors.
   
   // Driver B: Reverse Drive
   frc2::Button m_driverB{[&] {return m_driverStick.GetBButton();}};
@@ -137,16 +150,6 @@ class RobotContainer {
     m_climber.SetMotorsPO(passTurn, passExtend);
     wpi::outs() << "Front: " << std::to_string((double) robotConfig["shootingSpeedFront"]) << " Back: " << std::to_string((double) robotConfig["shootingSpeedBack"]) << "\n";
   }, {&m_climber}};
-  frc2::RunCommand m_Rumble{[this] {
-    if (robotConfig["useRumbleManip"]) {
-      m_manStick.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, m_elevator.GetSwitch1()?0:robotConfig["rumbleManipStrength"]);
-      m_manStick.SetRumble(frc::GenericHID::RumbleType::kRightRumble, m_elevator.GetSwitch2()?0:robotConfig["rumbleManipStrength"]);
-	}
-    if (robotConfig["useRumbleDriver"]) {
-      m_driverStick.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, m_elevator.GetSwitch1()?0:robotConfig["rumbleDriverStrength"]);
-      m_driverStick.SetRumble(frc::GenericHID::RumbleType::kRightRumble, m_elevator.GetSwitch2()?0:robotConfig["rumbleDriverStrength"]);
-	}
-  }, {}}; // Doesn't exclusively require m_elevator because we're only reading sensors.
   /*
   frc2::RunCommand m_DriverRumble{[this] {
     double strength = (robotConfig["lowLimelightY"]<m_shooter.GetLimelightY() && m_shooter.GetLimelightY()<robotConfig["highLimelightY"])?robotConfig["rumbleDriverStrength"]:0;
