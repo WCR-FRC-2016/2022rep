@@ -30,6 +30,7 @@
 #include "frc/XboxController.h"
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/ScheduleCommand.h>
 #include <frc2/command/button/Button.h>
 
 /**
@@ -141,12 +142,12 @@ class RobotContainer {
   }, {&m_climber}};
   frc2::RunCommand m_Rumble{[this] {
     if (robotConfig["useRumbleManip"]) {
-      m_manStick.setLeftRumble(m_elevator.GetSensor1()?0:robotConfig["rumbleManipStrength"]);
-      m_manStick.setRightRumble(m_elevator.GetSensor2()?0:robotConfig["rumbleManipStrength"]);
+      m_manStick.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, m_elevator.GetSwitch1()?0:robotConfig["rumbleManipStrength"]);
+      m_manStick.SetRumble(frc::GenericHID::RumbleType::kRightRumble, m_elevator.GetSwitch2()?0:robotConfig["rumbleManipStrength"]);
 	}
     if (robotConfig["useRumbleDriver"]) {
-      m_driverStick.setLeftRumble(m_elevator.GetSensor1()?0:robotConfig["rumbleDriverStrength"]);
-      m_driverStick.setRightRumble(m_elevator.GetSensor2()?0:robotConfig["rumbleDriverStrength"]);
+      m_driverStick.SetRumble(frc::GenericHID::RumbleType::kLeftRumble, m_elevator.GetSwitch1()?0:robotConfig["rumbleDriverStrength"]);
+      m_driverStick.SetRumble(frc::GenericHID::RumbleType::kRightRumble, m_elevator.GetSwitch2()?0:robotConfig["rumbleDriverStrength"]);
 	}
   }, {}}; // Doesn't exclusively require m_elevator because we're only reading sensors.
   /*
