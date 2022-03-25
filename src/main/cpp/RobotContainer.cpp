@@ -45,8 +45,8 @@ RobotContainer::RobotContainer() {
    SetConfig();
     
    m_driveBase.SetDefaultCommand(ArcadeDrive(&m_driveBase, 
-    [this] { return m_driverStick.GetRightX()*robotConfig["driveMaxSpeed"];} ,
-    [this] { return -m_driverStick.GetLeftY()/1.5;}
+    [this] { return m_driverStick.GetRightX()/2;} ,
+    [this] { return -m_driverStick.GetLeftY()*robotConfig["driveMaxSpeed"];}
    ));
    m_driveBase.SetRecording(&m_recording);
    
