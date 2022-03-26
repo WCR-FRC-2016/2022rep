@@ -37,7 +37,7 @@ void Recording::WriteLine() {
 	if (!recordfile.is_open()) return;
 	
 	recordfile << "replay";
-	for (unsigned int i=1; i<data.size(); i++) {
+	for (unsigned int i=0; i<data.size(); i++) {
 		recordfile << " " << (std::to_string(data[i]));
 	}
 	recordfile << "\n";

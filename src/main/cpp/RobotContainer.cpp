@@ -54,12 +54,15 @@ RobotContainer::RobotContainer() {
    //if (robotConfig["useRumbleDriver"]>0) m_DriverRumble.Schedule();
 
    m_shooter.SetDefaultCommand(m_NoShoot);
+   m_shooter.SetRecording(&m_recording);
 
    m_climber.SetDefaultCommand(m_ClimbControls);
    
    m_collector.SetDefaultCommand(m_NoCollect);
+   m_collector.SetRecording(&m_recording);
 
    m_elevator.SetDefaultCommand(m_NoElevate);
+   m_elevator.SetRecording(&m_recording);
    
    ConfigureButtonBindings();
 }
@@ -80,7 +83,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
     //m_manET.WhileHeld(m_ManualShoot);
     m_manLT.WhileHeld(m_SpinUpShoot);
-    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.1, 0.5));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.2, 0.6));
     m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.85, 0.8));
     m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, false));
     //m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
