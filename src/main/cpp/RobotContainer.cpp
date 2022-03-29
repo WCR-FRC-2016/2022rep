@@ -7,6 +7,8 @@
 
 #include "RobotContainer.h"
 
+#include <frc/shuffleboard/Shuffleboard.h>
+
 std::map<std::string, double> robotConfig = {
     {"RampTime", 0.325},
     {"PIDDeadband", 0.114}, // TODO: PID needs to be tuned.
@@ -63,6 +65,15 @@ RobotContainer::RobotContainer() {
    m_collector.SetDefaultCommand(m_NoCollect);
 
    m_elevator.SetDefaultCommand(m_NoElevate);
+   m_elevator.SetRecording(&m_recording);
+
+   // Add commands to the autonomous command chooser
+   m_chooser.SetDefaultOption("2 High, 1 Defense", "autonomous.txt");
+   m_chooser.AddOption("2 High", "oldautonomous2.txt");
+   m_chooser.AddOption("1 Low", "oldautonomous.txt");
+   
+   // Put the chooser on the dashboard
+   frc::Shuffleboard::GetTab("Autonomous").Add(m_chooser);
    
    ConfigureButtonBindings();
 }
@@ -110,7 +121,7 @@ void RobotContainer::CloseDriveBaseFile() {
 void RobotContainer::ReadFile() {
    // Reset file to start.
    autofile.close();
-   autofile.open(autofilename);
+   autofile.open(m_chooser.GetSelected());
 
    commands.clear();
 
@@ -135,15 +146,11 @@ void RobotContainer::SetConfig() {
       double value;
       std::istringstream words (line);
       words >> name;
-      if (name == "autoFileName") {
-         words >> autofilename;
-      } else {
-         words >> value;
-         //wpi::outs() << name << " " << value << "\n";
-         
-         // Write to variable
-         robotConfig[name] = value;
-      }
+      words >> value;
+      //wpi::outs() << name << " " << value << "\n";
+      
+      // Write to variable
+      robotConfig[name] = value;
    }
 }
 

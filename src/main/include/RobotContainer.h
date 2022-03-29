@@ -26,6 +26,7 @@
 #include "commands/Shoot.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"
+#include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/InstantCommand.h>
 #include <frc2/command/ScheduleCommand.h>
@@ -175,7 +176,9 @@ class RobotContainer {
   std::vector<std::string> commands;
   std::fstream autofile;
   std::fstream configfile {"/home/lvuser/wcrj/config.txt"};
-  std::string autofilename {"/home/lvuser/wcrj/autonomous.txt"};
+
+  // The chooser for the autonomous routines
+  frc::SendableChooser<std::string> m_chooser;
   
   int posID;
 };
