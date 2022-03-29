@@ -82,10 +82,10 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_manBack.WhenPressed(m_LogPos);
 
     //m_manET.WhileHeld(m_ManualShoot);
-    m_manLT.WhileHeld(m_SpinUpShoot);
-    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.1, 0.5));
+    m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, false));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.2, 0.6));
     m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.85, 0.8));
-    m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, false));
+    m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.65, 0.55));
     //m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator, true));
     m_manB.WhileHeld(m_Uncollect);
@@ -168,7 +168,9 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
    } else if (args.size()==2) {
       return new frc2::ScheduleCommand(new Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
-      return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.8:0.1, 0.5, 2500);
+      return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.65:0.1, (args[0]>0)?0.55:0.5, 2500);
+   } else {
+      return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
    }
    //return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
 }
