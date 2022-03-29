@@ -49,6 +49,11 @@ void DriveBase::DriveBaseInit() {
     BackL->ConfigOpenloopRamp(robotConfig["RampTime"], 0);
     BackR->ConfigOpenloopRamp(robotConfig["RampTime"], 0);
 
+    FrontL->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
+    FrontR->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
+    BackL->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
+    BackR->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
+
     FrontR->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     FrontL->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
 

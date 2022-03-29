@@ -74,12 +74,15 @@ void Shoot::Execute() {
   double front_err = (m_frontSpeed>0.2)?((1.2-m_frontSpeed)/10.0):0;
   double back_err = (m_backSpeed>0.2)?((1.2-m_backSpeed)/10.0):0;
 
+  if ((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())) back_err-=0.1;
+
   m_shooter->SetMotorsPO(-(m_frontSpeed+front_err)*m_frontSign, -(m_backSpeed+back_err)*m_backSign);
   
   wpi::outs() << std::to_string((double) m_frontSpeed) << " " << std::to_string((double) m_backSpeed) << "\n";
   wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 
-  if (m_shooter->GetMotorSpeed(false)*m_frontSign>m_frontSpeed && m_shooter->GetMotorSpeed(true)*m_backSign>m_backSpeed) {
+  //if (m_shooter->GetMotorSpeed(false)*m_frontSign>m_frontSpeed && m_shooter->GetMotorSpeed(true)*m_backSign>m_backSpeed) {
+  if (m_elapsed>=1500) {
     m_atSpeed = true;
   }
 

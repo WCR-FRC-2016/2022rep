@@ -146,7 +146,7 @@ class RobotContainer {
   frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0);}, {&m_collector} };
   frc2::RunCommand m_NoElevate{[this] {m_elevator.SetMotorPO(0);}, {&m_elevator} };
   frc2::RunCommand m_ClimbControls{[this] {
-    double m_turn   = m_manStick.GetRightX();
+    double m_turn   = -m_manStick.GetRightX();
     double m_extend = m_manStick.GetLeftY();
     double passTurn   = (abs(m_turn*1000)   > 200?m_turn:0.0);
     double passExtend = (abs(m_extend*1000) > 200?m_extend:0.0);
