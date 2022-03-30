@@ -65,7 +65,6 @@ RobotContainer::RobotContainer() {
    m_collector.SetDefaultCommand(m_NoCollect);
 
    m_elevator.SetDefaultCommand(m_NoElevate);
-   m_elevator.SetRecording(&m_recording);
 
    // Add commands to the autonomous command chooser
    std::string autoList[] {
@@ -181,8 +180,6 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       return new frc2::ScheduleCommand(new Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
       return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.65:0.2, (args[0]>0)?0.55:0.6, 2500);
-   } else {
-      return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
    }
    //return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
 }
