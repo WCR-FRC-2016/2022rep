@@ -7,7 +7,7 @@
 
 #include "RobotContainer.h"
 
-#include <frc/shuffleboard/Shuffleboard.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 std::map<std::string, double> robotConfig = {
     {"RampTime", 0.325},
@@ -68,12 +68,17 @@ RobotContainer::RobotContainer() {
    m_elevator.SetRecording(&m_recording);
 
    // Add commands to the autonomous command chooser
-   m_chooser.SetDefaultOption("2 High, 1 Defense", "autonomous.txt");
-   m_chooser.AddOption("2 High", "oldautonomous2.txt");
-   m_chooser.AddOption("1 Low", "oldautonomous.txt");
-   
-   // Put the chooser on the dashboard
-   frc::Shuffleboard::GetTab("Autonomous").Add(m_chooser);
+   std::string autoList[] {
+      "0_three_ball.txt",
+      "1A_drive_hit_turn_drive_collect_turn_shoot_high.txt",
+      "1B_drive_hit_turn_drive_collect_turn_shoot_low.txt",
+      "1C_drive_hit_turn_drive_collect_turn_shoot_high_turn_drive_defend.txt"
+      "2A_drive_collect_turn_shoot_high.txt",
+      "2B_drive_collect_turn_shoot_low.txt",
+      "3_shoot_low_back_up.txt"
+   };
+
+   frc::SmartDashboard::PutStringArray("Auto List", autoList);
    
    ConfigureButtonBindings();
 }
@@ -121,7 +126,7 @@ void RobotContainer::CloseDriveBaseFile() {
 void RobotContainer::ReadFile() {
    // Reset file to start.
    autofile.close();
-   autofile.open(m_chooser.GetSelected());
+   autofile.open("/home/lvuser/wcrj/" + frc::SmartDashboard::GetString("Auto Selector", "autonomous.txt"));
 
    commands.clear();
 
@@ -175,7 +180,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
    } else if (args.size()==2) {
       return new frc2::ScheduleCommand(new Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
    } else if (args.size()==1) {
-      return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.65:0.1, (args[0]>0)?0.55:0.5, 2500);
+      return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.65:0.2, (args[0]>0)?0.55:0.6, 2500);
    } else {
       return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
    }
