@@ -12,17 +12,17 @@ ArcadeDrive::ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation,
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase});
   m_time = -1;
-  m_elapsed = 0;
 }
 
 ArcadeDrive::ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward, double time) : m_drivebase{drivebase}, m_rotation{rotation}, m_forward{forward}, m_time{time}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase});
-  m_elapsed = 0;
 }
 
 // Called when the command is initially scheduled.
-void ArcadeDrive::Initialize() {}
+void ArcadeDrive::Initialize() {
+  m_elapsed = 0;
+}
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDrive::Execute() {

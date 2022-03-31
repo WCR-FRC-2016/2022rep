@@ -14,7 +14,6 @@ Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double 
 
   m_config = false;
   m_useLimelight = false;
-  m_elapsed = 0;
 }
 
 Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed) : m_shooter{shooter}, m_elevator{elevator}, m_collector{collector}, m_frontSpeed{frontSpeed}, m_backSpeed{backSpeed}  {
@@ -24,7 +23,6 @@ Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double 
   m_config = false;
   m_useLimelight = false;
   m_time = -1;
-  m_elapsed = 0;
 }
 
 Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, bool useLimelight) : m_shooter{shooter}, m_elevator{elevator}, m_collector{collector}  {
@@ -34,7 +32,6 @@ Shoot::Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, bool us
   m_config = true;
   m_useLimelight = useLimelight;
   m_time = -1;
-  m_elapsed = 0;
 }
 
 // Called when the command is initially scheduled.
@@ -67,6 +64,8 @@ void Shoot::Initialize() {
   wpi::outs() << "LimeLight Y: " << std::to_string((double) LimeLightY) << "\n";
   wpi::outs() << "LimeLight X: " << std::to_string((double) LimeLightX) << "\n";
   */
+
+  m_elapsed = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -74,7 +73,7 @@ void Shoot::Execute() {
   double front_err = (m_frontSpeed>0.2)?((1.2-m_frontSpeed)/10.0):0;
   double back_err = (m_backSpeed>0.2)?((1.2-m_backSpeed)/10.0):0;
 
-  if ((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())) back_err-=0.1;
+  //if ((m_elevator->GetSwitch1() || m_elevator->GetSwitch2())) back_err-=0.1;
 
   m_shooter->SetMotorsPO(-(m_frontSpeed+front_err)*m_frontSign, -(m_backSpeed+back_err)*m_backSign);
   

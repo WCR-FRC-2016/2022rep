@@ -27,6 +27,10 @@ std::map<std::string, double> robotConfig = {
 	{"useRumbleDriver", 0},
     {"shootingSpeedFront", 0.5},
     {"shootingSpeedBack", 0.5},
+    {"shootingSpeedLF", 0.1},
+    {"shootingSpeedLB", 0.5},
+    {"shootingSpeedHF", 0.65},
+    {"shootingSpeedHB", 0.55},
     {"shootingSpeedLLFA", 0.0025},
     {"shootingSpeedLLFB", 0.03},
     {"shootingSpeedLLFC", 0.1},
@@ -70,7 +74,7 @@ RobotContainer::RobotContainer() {
       "0_three_ball.txt",
       "1A_drive_hit_turn_drive_collect_turn_shoot_high.txt",
       "1B_drive_hit_turn_drive_collect_turn_shoot_low.txt",
-      "1C_drive_hit_turn_drive_collect_turn_shoot_high_turn_drive_defend.txt"
+      "1C_drive_hit_turn_drive_collect_turn_shoot_high_turn_drive_defend.txt",
       "2A_drive_collect_turn_shoot_high.txt",
       "2B_drive_collect_turn_shoot_low.txt",
       "3_shoot_low_back_up.txt"
@@ -97,9 +101,9 @@ void RobotContainer::ConfigureButtonBindings() {
 
     //m_manET.WhileHeld(m_ManualShoot);
     m_manLT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, false));
-    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.2, 0.6));
+    m_manRT.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedLF"], robotConfig["shootingSpeedLB"]));
     m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.85, 0.8));
-    m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, 0.65, 0.55));
+    m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedHF"], robotConfig["shootingSpeedHB"]));
     //m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator, true));
     m_manB.WhileHeld(m_Uncollect);

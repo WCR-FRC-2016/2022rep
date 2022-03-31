@@ -11,8 +11,6 @@
 Collect::Collect(Collector* collector, Elevator* elevator, bool intakeLift, double time) : m_collector{collector}, m_elevator{elevator}, m_intakeLift{intakeLift}, m_time{time}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({collector, elevator});
-  
-  m_elapsed = 0;
 }
 
 Collect::Collect(Collector* collector, Elevator* elevator, bool intakeLift) : m_collector{collector}, m_elevator{elevator}, m_intakeLift{intakeLift}  {
@@ -20,13 +18,14 @@ Collect::Collect(Collector* collector, Elevator* elevator, bool intakeLift) : m_
   AddRequirements({collector, elevator});
   
   m_time = -1;
-  m_elapsed = 0;
 }
 
 // Called when the command is initially scheduled.
 void Collect::Initialize() {
   // Lower Arm
   if (m_intakeLift) m_collector->SetLiftMotorPOHold(robotConfig["collectLiftSpeed"]);
+  
+  m_elapsed = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
