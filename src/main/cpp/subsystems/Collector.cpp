@@ -72,6 +72,7 @@ void Collector::Periodic() {
 		Collector::CollectorInit();
 	}
 
+    if (LiftMotorPO>0 && !HallEffectSensor2.Get()) LiftMotorPO = 0;
     SetLiftMotorPO(LiftMotorPO);
 }
 
