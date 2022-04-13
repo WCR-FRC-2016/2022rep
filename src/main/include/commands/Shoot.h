@@ -51,4 +51,7 @@ private:
 
   double m_time;
   double m_elapsed;
+
+  bool m_two;
+  double m_timer;
 };

@@ -8,38 +8,48 @@
 #include "commands/Center.h"
 #include "RobotMap.h"
 
-Center::Center(DriveBase* drivebase, Shooter* shooter) : pid{frc2::PIDController(robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"])}, m_drivebase{drivebase}, m_shooter{shooter}  {
+Center::Center(DriveBase* drivebase, Shooter* shooter) : pidh{frc2::PIDController(robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"])}, pidv{frc2::PIDController(robotConfig["aimingvP"], robotConfig["aimingvI"], robotConfig["aimingvD"])}, m_drivebase{drivebase}, m_shooter{shooter}  {
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({drivebase, shooter});
 }
 
 // Called when the command is initially scheduled.
 void Center::Initialize() {
-	pid.SetPID(robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"]);
-	pid.SetSetpoint(0);
-	pid.SetTolerance(0.1);
+	pidh.SetPID(robotConfig["aimingP"], robotConfig["aimingI"], robotConfig["aimingD"]);
+	pidh.SetSetpoint(robotConfig["aimingTarget"]);
+	pidh.SetTolerance(2.5);
+  
+	pidv.SetPID(robotConfig["aimingvP"], robotConfig["aimingvI"], robotConfig["aimingvD"]);
+	pidv.SetSetpoint(robotConfig["aimingvTarget"]);
+	pidv.SetTolerance(2.5);
+  
+  m_shooter->SetLimelightCamMode(0);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Center::Execute() {
   double rawRotation = m_shooter->GetLimelightX();
+  double rawForward = m_shooter->GetLimelightY();
 
-  double passRotation = pid.Calculate(rawRotation);
-
-  if (abs(passRotation*1000)<10) {passRotation = 0;}
+  double passRotation = -pidh.Calculate(rawRotation);
+  double passForward = pidv.Calculate(rawForward);
 
   passRotation = std::clamp(passRotation, -1.0, 1.0);
-
-  wpi::outs() << std::to_string(passRotation) << "\n";
-  wpi::outs() << "TestOutput\n";
+  passForward = std::clamp(passForward, -1.0, 1.0);
   
-  m_drivebase->ArcadeDrive(passRotation, 0.0);
+  if (pidh.AtSetpoint()) {
+    m_drivebase->ArcadeDrive(0, passForward);
+  } else {
+    m_drivebase->ArcadeDrive(passRotation, 0);
+  }
 }
 
 // Called once the command ends or is interrupted.
 void Center::End(bool interrupted) {
-	pid.Reset();
+	pidh.Reset();
+  
+  //m_shooter->SetLimelightCamMode(1);
 }
 
 // Returns true when the command should end.
-bool Center::IsFinished() { return pid.AtSetpoint(); }
+bool Center::IsFinished() { return pidh.AtSetpoint(); }

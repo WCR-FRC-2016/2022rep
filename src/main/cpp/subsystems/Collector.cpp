@@ -82,7 +82,7 @@ void Collector::SetLiftMotorPOHold(double PO) {
 }
 
 void Collector::SwapLiftMotorPOHold() {
-    double PO = ((LiftMotorPO==robotConfig["collectLiftSpeed"])?-1:1) * robotConfig["collectLiftSpeed"];
+    double PO = ((LiftMotorPO==-robotConfig["collectLiftSpeed"])?1:-1) * robotConfig["collectLiftSpeed"];
     SetLiftMotorPO(PO);
     LiftMotorPO = PO;
 }

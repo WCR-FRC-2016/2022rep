@@ -22,7 +22,7 @@ void DriveBase::DriveBaseInit() {
     BackL = new WPI_TalonSRX (backLeftDrive);
     BackR = new WPI_TalonSRX (backRightDrive);
 	_diffDrive = new frc::DifferentialDrive(*FrontL, *FrontR);
-	//ahrs = new AHRS(frc::SPI::Port::kMXP);
+	ahrs = new AHRS(frc::SPI::Port::kMXP);
 
     FrontR->ConfigFactoryDefault();
     FrontL->ConfigFactoryDefault();
@@ -44,6 +44,7 @@ void DriveBase::DriveBaseInit() {
     BackR->ConfigPeakCurrentDuration(1000,0);
     BackL->ConfigPeakCurrentDuration(1000,0);
 
+//*
     FrontL->ConfigOpenloopRamp(robotConfig["RampTime"], 0);
     FrontR->ConfigOpenloopRamp(robotConfig["RampTime"], 0);
     BackL->ConfigOpenloopRamp(robotConfig["RampTime"], 0);
@@ -53,6 +54,7 @@ void DriveBase::DriveBaseInit() {
     FrontR->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
     BackL->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
     BackR->ConfigClosedloopRamp(robotConfig["RampTime"], 0);
+	//*/
 
     FrontR->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
     FrontL->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, 0, 0);
@@ -97,10 +99,10 @@ void DriveBase::DriveBaseInit() {
     BackR->Set(ctre::phoenix::motorcontrol::ControlMode::Follower, frontRightDrive);
     //wpi::outs() << "Done setting up motor\n";
 
-		
+	ahrs->Reset();
 }
 void DriveBase::ArcadeDrive(double xAxis, double yAxis) {
-	//wpi::outs() << std::to_string( ahrs -> GetAngle()) << "\n";
+	wpi::outs() << std::to_string( ahrs -> GetAngle()) << "\n";
 
 	if (robotConfig["record"]>0)
 	{
@@ -187,15 +189,35 @@ void DriveBase::ArcadeDrive(double xAxis, double yAxis) {
 			parsedRight = parsedY + parsedX;
 	}
 	//wpi::outs() << "ArcadeDrive function mathematics " << parsedLeft << " " << parsedRight << "\n";
+
+/*
+	if (leftSpeed<parsedLeft-(1/robotConfig["RampTime"])) leftSpeed += (1/robotConfig["RampTime"]);
+	else if (leftSpeed>parsedLeft+(1/robotConfig["RampTime"])) leftSpeed -= (1/robotConfig["RampTime"]);
+	else leftSpeed = parsedLeft;
+
+	if (rightSpeed<parsedRight-(1/robotConfig["RampTime"])) rightSpeed += (1/robotConfig["RampTime"]);
+	else if (rightSpeed>parsedRight+(1/robotConfig["RampTime"])) rightSpeed -= (1/robotConfig["RampTime"]);
+	else rightSpeed = parsedRight;
+
+	_diffDrive->TankDrive(-leftSpeed, rightSpeed, false);
+	/*/
 	_diffDrive->TankDrive(-parsedLeft, parsedRight, false);
+	//*/
 
 }
 void DriveBase::RampSwitch(bool rampOn) {
+	if (!initialized) return;
+
 	double ramp = (rampOn)?robotConfig["RampTime"]:0;
 	FrontL->ConfigOpenloopRamp(ramp, 0);
     FrontR->ConfigOpenloopRamp(ramp, 0);
    	BackL->ConfigOpenloopRamp(ramp, 0);
     BackR->ConfigOpenloopRamp(ramp, 0);
+
+    FrontL->ConfigClosedloopRamp(ramp, 0);
+    FrontR->ConfigClosedloopRamp(ramp, 0);
+    BackL->ConfigClosedloopRamp(ramp, 0);
+    BackR->ConfigClosedloopRamp(ramp, 0);
 
 }
 void DriveBase::Periodic() {
@@ -208,6 +230,12 @@ void DriveBase::Periodic() {
   // SetDefaultCommand(new MySpecialCommand());
 }
 
+void DriveBase::Reset() {
+	RampSwitch(true);
+
+	if (initialized) ahrs->Reset();
+}
+
 void DriveBase::reverseDrive () {
 	driveConstant = driveConstant * -1;
 }
@@ -218,6 +246,10 @@ double DriveBase::getSpeed() {
 
 void DriveBase::setSpeed(double newSpeed) {
 	speed = std::clamp(newSpeed, 0.0, 1.0);
+}
+
+double DriveBase::GetAngle() {
+	return ahrs -> GetAngle();
 }
 
 void DriveBase::openFile() {

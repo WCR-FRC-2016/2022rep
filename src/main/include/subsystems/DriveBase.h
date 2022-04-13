@@ -12,7 +12,7 @@
 
 #include <fstream>
 #include <string>
-//#include <AHRS.h>
+#include <AHRS.h>
 
 class DriveBase : public frc2::SubsystemBase {
  private:
@@ -22,11 +22,14 @@ class DriveBase : public frc2::SubsystemBase {
   double driveConstant = -1;
   double speed = 1;
 
+  double leftSpeed = 0;  // Manual ramping
+  double rightSpeed = 0;
+
   WPI_TalonSRX * FrontL;
   WPI_TalonSRX * FrontR;
   WPI_TalonSRX * BackL;
   WPI_TalonSRX * BackR;
-  //AHRS * ahrs;
+  AHRS * ahrs;
   frc::DifferentialDrive * _diffDrive;
 
   std::fstream recordfile {"/home/lvuser/wcrj/replay.txt", std::ios_base::out | std::ios_base::trunc};
@@ -35,6 +38,7 @@ class DriveBase : public frc2::SubsystemBase {
   DriveBase();
   void DriveBaseInit();
   void Periodic();
+  void Reset();
   void ArcadeDrive(double xAxis, double yAxis);
   void RampSwitch(bool rampOn);
   void reverseDrive();
@@ -43,4 +47,5 @@ class DriveBase : public frc2::SubsystemBase {
   void openFile();
   void closeFile();
   void writeToFile(std::string msg);
+  double GetAngle();
 };

@@ -9,7 +9,11 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
+#include "frc/controller/PIDController.h"
 #include "subsystems/DriveBase.h"
+
+#include <string>
+#include <fstream>
 
 /**
  * An example command.
@@ -18,11 +22,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ArcadeDrive
-    : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
+class TurnCommand
+    : public frc2::CommandHelper<frc2::CommandBase, TurnCommand> {
  public:
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward);
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward, double time);
+  TurnCommand(DriveBase* drivebase, double angle);
 
   void Initialize() override;
 
@@ -31,10 +34,9 @@ class ArcadeDrive
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+  frc2::PIDController m_pid;
 private:
   DriveBase* m_drivebase;
-  std::function<double()> m_rotation;
-  std::function<double()> m_forward;
-  double m_time;
-  double m_elapsed;
+  double m_angle;
 };
