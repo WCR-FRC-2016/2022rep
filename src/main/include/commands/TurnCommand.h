@@ -9,9 +9,11 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/Shooter.h"
-#include "subsystems/Elevator.h"
-#include "subsystems/Collector.h"
+#include "frc/controller/PIDController.h"
+#include "subsystems/DriveBase.h"
+
+#include <string>
+#include <fstream>
 
 /**
  * An example command.
@@ -20,12 +22,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Shoot
-    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
+class TurnCommand
+    : public frc2::CommandHelper<frc2::CommandBase, TurnCommand> {
  public:
-  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed, double time);
-  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed);
-  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, bool useLimelight);
+  TurnCommand(DriveBase* drivebase, double angle);
 
   void Initialize() override;
 
@@ -34,24 +34,9 @@ class Shoot
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+  frc2::PIDController m_pid;
 private:
-  Shooter* m_shooter;
-  Elevator* m_elevator;
-  Collector* m_collector;
-  
-  double m_frontSpeed;
-  double m_backSpeed;
-
-  double m_frontSign;
-  double m_backSign;
-
-  bool m_atSpeed;
-  bool m_config;
-  bool m_useLimelight;
-
-  double m_time;
-  double m_elapsed;
-
-  bool m_two;
-  double m_timer;
+  DriveBase* m_drivebase;
+  double m_angle;
 };

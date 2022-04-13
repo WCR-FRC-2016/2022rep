@@ -35,7 +35,8 @@ class Center
 
   bool IsFinished() override;
 
-  frc2::PIDController pid;
+  frc2::PIDController pidh;
+  frc2::PIDController pidv;
 private:
   DriveBase* m_drivebase;
   Shooter* m_shooter;

@@ -15,9 +15,18 @@ std::map<std::string, double> robotConfig = {
     {"minTurn", 0.1},
     {"driveMaxSpeed", 0.85},
     {"record", 0},
-    {"aimingP", 1},
+    {"aimingP", 0.005},
     {"aimingI", 0},
     {"aimingD", 0},
+    {"aimingTarget", 0},
+    {"aimingvP", 0.005},
+    {"aimingvI", 0},
+    {"aimingvD", 0},
+    {"aimingvTarget", 0},
+    {"autoTurnP", 0.01},
+    {"autoTurnI", 0},
+    {"autoTurnD", 0},
+    {"autoTurnError", 0},
     {"LIDARm", 43254.71311},
     {"LIDARb", -8.92784},
     {"useCamera", 0},
@@ -25,6 +34,7 @@ std::map<std::string, double> robotConfig = {
     {"useLimelight", 0},
 	{"useRumbleManip", 0},
 	{"useRumbleDriver", 0},
+   {"shootingSpinUpTime", 1000},
     {"shootingSpeedFront", 0.5},
     {"shootingSpeedBack", 0.5},
     {"shootingSpeedLF", 0.1},
@@ -70,17 +80,23 @@ RobotContainer::RobotContainer() {
    m_elevator.SetRecording(&m_recording);
 
    // Add commands to the autonomous command chooser
-   std::string autoList[] {
-      "0_three_ball.txt",
-      "1A_drive_hit_turn_drive_collect_turn_shoot_high.txt",
-      "1B_drive_hit_turn_drive_collect_turn_shoot_low.txt",
-      "1C_drive_hit_turn_drive_collect_turn_shoot_high_turn_drive_defend.txt",
-      "2A_drive_collect_turn_shoot_high.txt",
-      "2B_drive_collect_turn_shoot_low.txt",
-      "3_shoot_low_back_up.txt"
-   };
+   std::vector<std::string> autoVector {};
 
-   frc::SmartDashboard::PutStringArray("Auto List", autoList);
+   // Totally not copied and pasted from Stack Overflow
+   DIR *dir;
+   struct dirent *ent;
+   if ((dir = opendir ("/home/lvuser/wcrj")) != NULL) {
+      /* print all the files and directories within directory */
+      while ((ent = readdir (dir)) != NULL) {
+         autoVector.push_back(ent->d_name);
+      }
+      closedir (dir);
+   } else {
+      /* could not open directory */
+      perror ("");
+   }
+
+   frc::SmartDashboard::PutStringArray("Auto List", autoVector);
    
    ConfigureButtonBindings();
 }
@@ -92,6 +108,9 @@ void RobotContainer::ConfigureButtonBindings() {
 	m_driverRT.WhenPressed(m_AdjustSpeedUp);
 	m_driverRB.WhenPressed(m_SwapSpeed);
 	m_driverB.WhenPressed(m_ReverseDrive);
+   
+    m_driverX.WhenPressed(m_PipelineSwap);
+    m_driverY.WhileHeld(Center(&m_driveBase, &m_shooter));
 	
 	m_manDPadU.WhenPressed(m_AdjustSpeedFrontUp);
 	m_manDPadR.WhenPressed(m_AdjustSpeedBackUp);
@@ -106,11 +125,9 @@ void RobotContainer::ConfigureButtonBindings() {
     m_manRB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector, robotConfig["shootingSpeedHF"], robotConfig["shootingSpeedHB"]));
     //m_manLB.WhileHeld(Shoot(&m_shooter, &m_elevator, &m_collector));
     m_manA.WhileHeld(Collect(&m_collector, &m_elevator, true));
-    m_manB.WhileHeld(m_Uncollect);
+    m_manB.WhileHeld(Uncollect(&m_collector, &m_elevator));
     m_manX.WhenPressed(m_CollectorSwap);
     m_manY.WhileHeld(Collect(&m_collector, &m_elevator, false));
-    //m_manDPadRight.WhileHeld(Center(&m_driveBase, &m_shooter));
-    m_manStart.WhenPressed(m_PipelineSwap);
     
    m_always.WhileHeld(m_Rumble);
 
@@ -153,6 +170,8 @@ void RobotContainer::SetConfig() {
       // Write to variable
       robotConfig[name] = value;
    }
+
+   m_driveBase.Reset();
 }
 
 void RobotContainer::OpenRecordingFile() {
@@ -183,14 +202,32 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
       args.push_back(num);
    }
    
-   if (args.size()==3) {
-      return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, args[2]);
-   } else if (args.size()==2) {
-      return new frc2::ScheduleCommand(new Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
-   } else if (args.size()==1) {
-      return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?0.65:0.2, (args[0]>0)?0.55:0.6, 2500);
-   } else {
-      return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+   switch (verb[0]) {
+      case 'd': // drive
+         if (args.size()<3) {
+            return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
+         } else {
+            return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, args[2]);
+         }
+         break;
+      case 'c': // collect
+         return new frc2::ScheduleCommand(new Collect(&m_collector, &m_elevator, (args[0]>0), args[1]));
+         break;
+      case 'u': // uncollect
+         return new frc2::ScheduleCommand(new Uncollect(&m_collector, &m_elevator, args[0]));
+         break;
+      case 's': // shoot
+         return new Shoot(&m_shooter, &m_elevator, &m_collector, (args[0]>0)?robotConfig["shootingSpeedHF"]:robotConfig["shootingSpeedLF"], (args[0]>0)?robotConfig["shootingSpeedHB"]:robotConfig["shootingSpeedLB"], 2500);
+         break;
+      case 't': // turn
+         return new TurnCommand(&m_driveBase, args[0]);
+         break;
+      case 'r': // replay
+		 return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+		 break;
+      default:
+         return new ArcadeDrive(&m_driveBase, [this] {return 0;}, [this] {return 0;}, 1);
+         break;
    }
    //return new ArcadeDrive(&m_driveBase, [this, args] {return args[0];}, [this, args] {return args[1];}, 1);
 }

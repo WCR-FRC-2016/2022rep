@@ -13,6 +13,7 @@
 #include <vector>
 #include <fstream>
 #include <math.h>
+#include <dirent.h>
 
 #include "subsystems/DriveBase.h"
 #include "subsystems/Shooter.h"
@@ -23,8 +24,10 @@
 #include "commands/LIDARTest.h"
 #include "commands/Center.h"
 #include "commands/Collect.h"
+#include "commands/Uncollect.h"
 #include "commands/Shoot.h"
 #include "commands/AutoCommand.h"
+#include "commands/TurnCommand.h"
 #include "Recording.h"
 #include "RobotMap.h"
 #include "frc/XboxController.h"
@@ -80,6 +83,13 @@ class RobotContainer {
   // Driver B: Reverse Drive
   frc2::Button m_driverB{[&] {return m_driverStick.GetBButton();}};
   frc2::InstantCommand m_ReverseDrive{[this] {m_driveBase.reverseDrive();} , {&m_driveBase} };
+  
+  // Driver X: Pipeline Swap
+  frc2::Button m_driverX{[&] {return m_driverStick.GetXButton();}};
+  frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
+  
+  // Driver Y: Center
+  frc2::Button m_driverY{[&] {return m_driverStick.GetYButton();}};
 
   /*
   // Manip Either Trigger: Shoot (old test command for calibration)
@@ -125,23 +135,18 @@ class RobotContainer {
 
   // Manip B: Uncollect
   frc2::Button m_manB{[&] {return m_manStick.GetBButton();}};
-  frc2::InstantCommand m_Uncollect{[this] {m_collector.SetMotorPO(-robotConfig["collectMoveSpeed"]); m_elevator.SetMotorPO(-robotConfig["elevatorMoveSpeed"]);} , {&m_collector, &m_elevator} };
   
   // Manip X: Swap Collector Up/Down
   frc2::Button m_manX{[&] {return m_manStick.GetXButton();}};
   frc2::InstantCommand m_CollectorSwap{[this] {m_collector.SwapLiftMotorPOHold();} , {&m_shooter} };
- 
- /*
-  // Manip Dpad Right: Center
-  frc2::Button m_manDPadRight{[&] {return m_manStick.GetPOV()>=45 && m_manStick.GetPOV()<=135;}};
-  */
 
   // Manip Y: Collect Without Intake
   frc2::Button m_manY{[&] {return m_manStick.GetYButton();}};
 
+/*
   // Manip Start: Swap Vision Target
   frc2::Button m_manStart{[&] {return m_manStick.GetStartButton();}};
-  frc2::InstantCommand m_PipelineSwap{[this] {m_shooter.ChoosePipeline();} , {&m_shooter} };
+  */
 
   frc2::RunCommand m_NoShoot{[this] {m_shooter.SetMotorsPO(0, 0);}, {&m_shooter} };
   frc2::RunCommand m_NoCollect{[this] {m_collector.SetMotorPO(0);}, {&m_collector} };
@@ -152,7 +157,9 @@ class RobotContainer {
     double passTurn   = (abs(m_turn*1000)   > 200?m_turn:0.0);
     double passExtend = (abs(m_extend*1000) > 200?m_extend:0.0);
     m_climber.SetMotorsPO(passTurn, passExtend);
-    wpi::outs() << "Front: " << std::to_string((double) robotConfig["shootingSpeedFront"]) << " Back: " << std::to_string((double) robotConfig["shootingSpeedBack"]) << "\n";
+    //wpi::outs() << "Front: " << std::to_string((double) robotConfig["shootingSpeedFront"]) << " Back: " << std::to_string((double) robotConfig["shootingSpeedBack"]) << "\n";
+    wpi::outs() << "Angle: " << std::to_string((double) m_driveBase.GetAngle()) << "\n";
+    wpi::outs().flush();
   }, {&m_climber}};
   /*
   frc2::RunCommand m_DriverRumble{[this] {

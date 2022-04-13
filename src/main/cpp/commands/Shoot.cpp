@@ -66,6 +66,9 @@ void Shoot::Initialize() {
   */
 
   m_elapsed = 0;
+
+  m_two = true;
+  m_timer = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -80,9 +83,22 @@ void Shoot::Execute() {
   wpi::outs() << std::to_string((double) m_frontSpeed) << " " << std::to_string((double) m_backSpeed) << "\n";
   wpi::outs() << std::to_string((double) m_shooter->GetMotorSpeed(false)) << " " << std::to_string((double) m_shooter->GetMotorSpeed(true)) << "\n\n";
 
+  if (!m_elevator->GetSwitch1() && !m_elevator->GetSwitch2()) m_two = true;
+
   //if (m_shooter->GetMotorSpeed(false)*m_frontSign>m_frontSpeed && m_shooter->GetMotorSpeed(true)*m_backSign>m_backSpeed) {
-  if (m_elapsed>=1500) {
+  if (m_elapsed>=robotConfig["shootingSpinUpTime"]) {
     m_atSpeed = true;
+  }
+
+  if (m_two && (m_elevator->GetSwitch1() || m_elevator->GetSwitch2())) {
+    m_two = false;
+    m_timer = robotConfig["shootingDoubleTapTime"];
+  }
+
+  if (m_timer>0) {
+    m_atSpeed = false;
+    m_timer-=20;
+    if (m_timer<=0) m_atSpeed = true;
   }
 
   if (m_atSpeed) {
@@ -98,7 +114,7 @@ void Shoot::Execute() {
 
 // Called once the command ends or is interrupted.
 void Shoot::End(bool interrupted) {
-  m_shooter->SetLimelightCamMode(1);
+  //m_shooter->SetLimelightCamMode(1);
 }
 
 // Returns true when the command should end.

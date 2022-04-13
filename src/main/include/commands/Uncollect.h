@@ -9,9 +9,8 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/Shooter.h"
-#include "subsystems/Elevator.h"
 #include "subsystems/Collector.h"
+#include "subsystems/Elevator.h"
 
 /**
  * An example command.
@@ -20,12 +19,11 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Shoot
-    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
+class Uncollect
+    : public frc2::CommandHelper<frc2::CommandBase, Uncollect> {
  public:
-  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed, double time);
-  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed);
-  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, bool useLimelight);
+  Uncollect(Collector* collector, Elevator* elevator, double time);
+  Uncollect(Collector* collector, Elevator* elevator);
 
   void Initialize() override;
 
@@ -35,23 +33,11 @@ class Shoot
 
   bool IsFinished() override;
 private:
-  Shooter* m_shooter;
-  Elevator* m_elevator;
   Collector* m_collector;
+  Elevator* m_elevator;
   
-  double m_frontSpeed;
-  double m_backSpeed;
-
-  double m_frontSign;
-  double m_backSign;
-
-  bool m_atSpeed;
-  bool m_config;
-  bool m_useLimelight;
-
+  bool m_intakeLift;
+  
   double m_time;
   double m_elapsed;
-
-  bool m_two;
-  double m_timer;
 };

@@ -12,7 +12,7 @@
 
 #include <fstream>
 #include <string>
-//#include <AHRS.h>
+#include <AHRS.h>
 
 #include "Recording.h"
 
@@ -24,11 +24,14 @@ class DriveBase : public frc2::SubsystemBase {
   double driveConstant = -1;
   double speed = 1;
 
+  double leftSpeed = 0;  // Manual ramping
+  double rightSpeed = 0;
+
   WPI_TalonSRX * FrontL;
   WPI_TalonSRX * FrontR;
   WPI_TalonSRX * BackL;
   WPI_TalonSRX * BackR;
-  //AHRS * ahrs;
+  AHRS * ahrs;
   frc::DifferentialDrive * _diffDrive;
   
   Recording* m_recording;
@@ -38,9 +41,11 @@ class DriveBase : public frc2::SubsystemBase {
   void DriveBaseInit();
   void Periodic();
   void SetRecording(Recording* recording);
+  void Reset();
   void ArcadeDrive(double xAxis, double yAxis);
   void RampSwitch(bool rampOn);
   void reverseDrive();
   double getSpeed();
   void setSpeed(double newSpeed);
+  double GetAngle();
 };
