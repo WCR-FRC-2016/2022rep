@@ -85,10 +85,16 @@ void Shooter::ShooterInit() {
     Front->SetSelectedSensorPosition(0,0,0);
     Back->SetSelectedSensorPosition(0,0,0);
 	*/
+
+	m_recording->WriteData(5, 0);
 }
 
 void Shooter::SetRecording(Recording* recording) {
 	m_recording = recording;
+}
+
+void Shooter::WriteData(double data) {
+	m_recording->WriteData(5, data);
 }
 
 void Shooter::SetMotorsPO (double front, double back) {

@@ -69,6 +69,8 @@ void Shoot::Initialize() {
 
   m_two = true;
   m_timer = 0;
+
+  m_shooter->WriteData(1);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -114,6 +116,7 @@ void Shoot::Execute() {
 
 // Called once the command ends or is interrupted.
 void Shoot::End(bool interrupted) {
+  m_shooter->WriteData(1);
   //m_shooter->SetLimelightCamMode(1);
 }
 

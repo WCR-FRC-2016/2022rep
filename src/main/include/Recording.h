@@ -16,9 +16,9 @@
 //  1 - Drivebase forward
 //  2 - Shooter speed front
 //  3 - Shooter speed back
-//  4 - Collector in/out
-//  5 - Collector lift
-//  6 - Elevator in/out
+//  4 - Collect?
+//  5 - Shoot?
+
 
 
 //  9 - LIDAR distance raw

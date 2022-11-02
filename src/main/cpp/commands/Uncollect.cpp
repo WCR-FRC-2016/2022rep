@@ -22,6 +22,8 @@ Uncollect::Uncollect(Collector* collector, Elevator* elevator) : m_collector{col
 
 // Called when the command is initially scheduled.
 void Uncollect::Initialize() {
+  m_collector->WriteData(1);
+
   m_elapsed = 0;
 }
 
@@ -35,6 +37,7 @@ void Uncollect::Execute() {
 
 // Called once the command ends or is interrupted.
 void Uncollect::End(bool interrupted) {
+  m_collector->WriteData(0);
 }
 
 // Returns true when the command should end.

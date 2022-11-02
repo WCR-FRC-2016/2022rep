@@ -223,7 +223,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
          return new TurnCommand(&m_driveBase, args[0]);
          break;
       case 'r': // replay
-		 return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+		 return new AutoCommand(&m_driveBase, &m_shooter, &m_collector, &m_elevator, args[0], args[1], args[2], args[3], args[4], args[5]);
 		 break;
       default:
          return new ArcadeDrive(&m_driveBase, [this] {return 0;}, [this] {return 0;}, 1);

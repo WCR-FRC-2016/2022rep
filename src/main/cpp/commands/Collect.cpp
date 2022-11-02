@@ -24,6 +24,8 @@ Collect::Collect(Collector* collector, Elevator* elevator, bool intakeLift) : m_
 void Collect::Initialize() {
   // Lower Arm
   if (m_intakeLift) m_collector->SetLiftMotorPOHold(robotConfig["collectLiftSpeed"]);
+
+  m_collector->WriteData(1);
   
   m_elapsed = 0;
 }
@@ -40,6 +42,8 @@ void Collect::Execute() {
 void Collect::End(bool interrupted) {
   // Raise Arm
   if (m_intakeLift) m_collector->SetLiftMotorPOHold(-robotConfig["collectLiftSpeed"]);
+
+  m_collector->WriteData(0);
 }
 
 // Returns true when the command should end.

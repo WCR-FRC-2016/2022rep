@@ -34,6 +34,7 @@ class Collector : public frc2::SubsystemBase {
   void CollectorInit();
   void Periodic();
   void SetRecording(Recording* recording);
+  void WriteData(double data);
   void SetMotorPO(double PO);
   void SetLiftMotorPOHold(double PO);
   void SwapLiftMotorPOHold();

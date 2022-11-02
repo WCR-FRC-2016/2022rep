@@ -13,6 +13,9 @@
 #include "subsystems/Shooter.h"
 #include "subsystems/Collector.h"
 #include "subsystems/Elevator.h"
+#include "commands/Collect.h"
+#include "commands/Uncollect.h"
+#include "commands/Shoot.h"
 
 /**
  * An example command.
@@ -24,7 +27,7 @@
 class AutoCommand
     : public frc2::CommandHelper<frc2::CommandBase, AutoCommand> {
  public:
-  AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, double rotation, double forward, double front, double back, double cmotor, double cliftmotor, double emotor);
+  AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, double rotation, double forward, double front, double back, double collect, double shoot);
 
   void Initialize() override;
 
@@ -38,11 +41,15 @@ private:
   Shooter* m_shooter;
   Collector* m_collector;
   Elevator* m_elevator;
+
+  Collect* m_Collect;
+  Uncollect* m_Uncollect;
+  Shoot* m_Shoot;
+
   double m_rotation;
   double m_forward;
   double m_front;
   double m_back;
-  double m_cmotor;
-  double m_cliftmotor;
-  double m_emotor;
+  double m_collect;
+  double m_shoot;
 };

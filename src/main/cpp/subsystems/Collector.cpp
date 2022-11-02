@@ -65,6 +65,11 @@ void Collector::CollectorInit() {
 */
 
     SetLiftMotorPOHold(-robotConfig["collectLiftSpeed"]);
+
+    if (robotConfig["record"]>0)
+	{
+		m_recording->WriteData(4, 0);
+	}
 }
 
 void Collector::Periodic() {
@@ -80,13 +85,15 @@ void Collector::SetRecording(Recording* recording) {
 	m_recording = recording;
 }
 
-void Collector::SetLiftMotorPOHold(double PO) {
-	if (robotConfig["record"]>0)
+void Collector::WriteData(double data) {
+    if (robotConfig["record"]>0)
 	{
-		m_recording->WriteData(5, PO);
+		m_recording->WriteData(4, data);
 	}
-	
-    SetLiftMotorPO(PO);
+}
+
+void Collector::SetLiftMotorPOHold(double PO) {
+	SetLiftMotorPO(PO);
     LiftMotorPO = PO;
 }
 
@@ -96,11 +103,6 @@ void Collector::SwapLiftMotorPOHold() {
 }
 
 void Collector::SetMotorPO(double PO) {
-	if (robotConfig["record"]>0)
-	{
-		m_recording->WriteData(4, PO);
-	}
-	
 	Motor->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, PO);
 }
 

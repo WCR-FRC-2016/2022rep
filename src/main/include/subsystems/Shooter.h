@@ -33,6 +33,7 @@ class Shooter : public frc2::SubsystemBase {
   void ShooterInit();
   void Periodic();
   void SetRecording(Recording* recording);
+  void WriteData(double data);
   void SetMotorsPO(double front, double back);
   void SetMotorsVel(double front, double back);
   double GetMotorSpeed(bool back);
