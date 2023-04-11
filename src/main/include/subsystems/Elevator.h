@@ -8,44 +8,28 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-#include <frc/drive/DifferentialDrive.h>
-
-#include <fstream>
-#include <string>
-#include <AHRS.h>
+#include <frc/DigitalInput.h>
 
 #include "Recording.h"
 
-class DriveBase : public frc2::SubsystemBase {
+class Elevator : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
   bool initialized = false;
-  double driveConstant = -1;
-  double speed = 1;
 
-  double leftSpeed = 0;  // Manual ramping
-  double rightSpeed = 0;
-
-  WPI_TalonSRX * FrontL;
-  WPI_TalonSRX * FrontR;
-  WPI_TalonSRX * BackL;
-  WPI_TalonSRX * BackR;
-  AHRS * ahrs;
-  frc::DifferentialDrive * _diffDrive;
+  WPI_TalonSRX * Motor;
+  frc::DigitalInput ProximitySensor1{0};
+  frc::DigitalInput ProximitySensor2{1};
   
   Recording* m_recording;
 
  public:
-  DriveBase();
-  void DriveBaseInit();
+  Elevator();
+  void ElevatorInit();
   void Periodic();
   void SetRecording(Recording* recording);
-  void Reset();
-  void ArcadeDrive(double xAxis, double yAxis);
-  void RampSwitch(bool rampOn);
-  void reverseDrive();
-  double getSpeed();
-  void setSpeed(double newSpeed);
-  double GetAngle();
+  void SetMotorPO(double PO);
+  bool GetSwitch1();
+  bool GetSwitch2();
 };

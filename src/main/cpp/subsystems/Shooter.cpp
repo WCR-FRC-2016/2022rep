@@ -23,6 +23,8 @@ void Shooter::ShooterInit() {
         table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
         //frc::Shuffleboard::GetTab("Numbers").Add("Hood",yTurretMotor->GetSelectedSensorPosition());
         nt::NetworkTableInstance::GetDefault().GetTable("dataTable");
+        
+        SetLimelightCamMode(1);
     }
 
     initialized = true;
@@ -83,11 +85,37 @@ void Shooter::ShooterInit() {
     Front->SetSelectedSensorPosition(0,0,0);
     Back->SetSelectedSensorPosition(0,0,0);
 	*/
+
+	m_recording->WriteData(5, 0);
 }
 
-void Shooter::SetMotorsPO (double left, double right) {
-	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left);
-	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right);
+void Shooter::SetRecording(Recording* recording) {
+	m_recording = recording;
+}
+
+void Shooter::WriteData(double data) {
+	m_recording->WriteData(5, data);
+}
+
+void Shooter::SetMotorsPO (double front, double back) {
+	if (robotConfig["record"]>0)
+	{
+		m_recording->WriteData(2, front);
+		m_recording->WriteData(3, back);
+	}
+	
+	Front->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, front);
+	Back->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, back);
+}
+
+void Shooter::SetMotorsVel (double front, double back) {
+	Front->Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, front);
+	Back->Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, back);
+}
+
+// Actually returns PO
+double Shooter::GetMotorSpeed (bool back) {
+    return -(back?Back:Front)->GetMotorOutputPercent();
 }
 
 void Shooter::ChoosePipeline() {
@@ -107,6 +135,21 @@ double Shooter::GetLimelightX () {
         return table->GetNumber("tx", 0.0);
     } else {
         return 0.0;
+    }
+}
+
+double Shooter::GetLimelightY () {
+    if (robotConfig["useLimelight"]>0) {
+        return table->GetNumber("ty", 0.0);
+    } else {
+        return 0.0;
+    }
+}
+
+void Shooter::SetLimelightCamMode(int mode) {
+    if (robotConfig["useLimelight"]>0) {
+        table->PutNumber("camMode", mode);
+        table->PutNumber("ledMode", (mode==1)?1:0);
     }
 }
 

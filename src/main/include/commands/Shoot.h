@@ -9,7 +9,9 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/DriveBase.h"
+#include "subsystems/Shooter.h"
+#include "subsystems/Elevator.h"
+#include "subsystems/Collector.h"
 
 /**
  * An example command.
@@ -18,11 +20,12 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ArcadeDrive
-    : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
+class Shoot
+    : public frc2::CommandHelper<frc2::CommandBase, Shoot> {
  public:
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward);
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward, double time);
+  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed, double time);
+  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, double frontSpeed, double backSpeed);
+  Shoot(Shooter* shooter, Elevator* elevator, Collector* collector, bool useLimelight);
 
   void Initialize() override;
 
@@ -32,9 +35,23 @@ class ArcadeDrive
 
   bool IsFinished() override;
 private:
-  DriveBase* m_drivebase;
-  std::function<double()> m_rotation;
-  std::function<double()> m_forward;
+  Shooter* m_shooter;
+  Elevator* m_elevator;
+  Collector* m_collector;
+  
+  double m_frontSpeed;
+  double m_backSpeed;
+
+  double m_frontSign;
+  double m_backSign;
+
+  bool m_atSpeed;
+  bool m_config;
+  bool m_useLimelight;
+
   double m_time;
   double m_elapsed;
+
+  bool m_two;
+  double m_timer;
 };

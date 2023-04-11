@@ -32,6 +32,7 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   //wpi::outs() << "Debug Statement 3\n";
   frc2::CommandScheduler::GetInstance().Run();
+  m_container.Record();
   //wpi::outs() << "Debug Statement 5\n";
 }
 
@@ -43,7 +44,7 @@ void Robot::RobotPeriodic() {
 void Robot::DisabledInit() {
   m_container.command_no = 0;
 
-  m_container.CloseDriveBaseFile();
+  m_container.CloseRecordingFile();
 }
 
 void Robot::DisabledPeriodic() {}
@@ -85,7 +86,7 @@ void Robot::TeleopInit() {
   //}
 
   m_container.SetConfig();
-  m_container.OpenDriveBaseFile();
+  m_container.OpenRecordingFile();
 }
 
 /**

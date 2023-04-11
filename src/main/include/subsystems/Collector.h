@@ -8,44 +8,34 @@
 #pragma once
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix.h>
-#include <frc/drive/DifferentialDrive.h>
-
-#include <fstream>
-#include <string>
-#include <AHRS.h>
+#include <frc/DigitalInput.h>
 
 #include "Recording.h"
 
-class DriveBase : public frc2::SubsystemBase {
+class Collector : public frc2::SubsystemBase {
  private:
   // It's desirable that everything possible under private except
   // for methods that implement subsystem capabilities
   bool initialized = false;
-  double driveConstant = -1;
-  double speed = 1;
 
-  double leftSpeed = 0;  // Manual ramping
-  double rightSpeed = 0;
+  double LiftMotorPO = 0.0;
 
-  WPI_TalonSRX * FrontL;
-  WPI_TalonSRX * FrontR;
-  WPI_TalonSRX * BackL;
-  WPI_TalonSRX * BackR;
-  AHRS * ahrs;
-  frc::DifferentialDrive * _diffDrive;
+  WPI_TalonSRX * Motor;
+  WPI_TalonSRX * LiftMotor;
+  frc::DigitalInput HallEffectSensor1{2};
+  frc::DigitalInput HallEffectSensor2{3};
+
+  void SetLiftMotorPO(double PO);
   
   Recording* m_recording;
 
  public:
-  DriveBase();
-  void DriveBaseInit();
+  Collector();
+  void CollectorInit();
   void Periodic();
   void SetRecording(Recording* recording);
-  void Reset();
-  void ArcadeDrive(double xAxis, double yAxis);
-  void RampSwitch(bool rampOn);
-  void reverseDrive();
-  double getSpeed();
-  void setSpeed(double newSpeed);
-  double GetAngle();
+  void WriteData(double data);
+  void SetMotorPO(double PO);
+  void SetLiftMotorPOHold(double PO);
+  void SwapLiftMotorPOHold();
 };

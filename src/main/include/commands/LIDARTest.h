@@ -10,8 +10,8 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include <frc/Counter.h>
-#include "subsystems/DriveBase.h"
 #include "RobotMap.h"
+#include "Recording.h"
 
 /**
  * An example command.
@@ -23,7 +23,7 @@
 class LIDARTest
     : public frc2::CommandHelper<frc2::CommandBase, LIDARTest> {
  public:
-  LIDARTest(DriveBase* drivebase);
+  LIDARTest(Recording* recording);
 
   void Initialize() override;
 
@@ -33,7 +33,7 @@ class LIDARTest
 
   bool IsFinished() override;
 private:
-  DriveBase* m_drivebase;
+  Recording* m_recording;
   frc::Counter counter{frc::Counter::Mode::kSemiperiod};
   
 };

@@ -10,6 +10,12 @@
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/DriveBase.h"
+#include "subsystems/Shooter.h"
+#include "subsystems/Collector.h"
+#include "subsystems/Elevator.h"
+#include "commands/Collect.h"
+#include "commands/Uncollect.h"
+#include "commands/Shoot.h"
 
 /**
  * An example command.
@@ -18,11 +24,10 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class ArcadeDrive
-    : public frc2::CommandHelper<frc2::CommandBase, ArcadeDrive> {
+class AutoCommand
+    : public frc2::CommandHelper<frc2::CommandBase, AutoCommand> {
  public:
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward);
-  ArcadeDrive(DriveBase* drivebase, std::function<double()> rotation, std::function<double()> forward, double time);
+  AutoCommand(DriveBase* drivebase, Shooter* shooter, Collector* collector, Elevator* elevator, double rotation, double forward, double front, double back, double collect, double shoot);
 
   void Initialize() override;
 
@@ -33,8 +38,18 @@ class ArcadeDrive
   bool IsFinished() override;
 private:
   DriveBase* m_drivebase;
-  std::function<double()> m_rotation;
-  std::function<double()> m_forward;
-  double m_time;
-  double m_elapsed;
+  Shooter* m_shooter;
+  Collector* m_collector;
+  Elevator* m_elevator;
+
+  Collect* m_Collect;
+  Uncollect* m_Uncollect;
+  Shoot* m_Shoot;
+
+  double m_rotation;
+  double m_forward;
+  double m_front;
+  double m_back;
+  double m_collect;
+  double m_shoot;
 };
